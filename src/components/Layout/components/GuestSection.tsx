@@ -41,6 +41,16 @@ function GuestSection() {
               <HiOutlineUserPlus className='mr-2 text-xl' /> Sign up
             </NavLink>
           </li>
+          <li className='mt-2'>
+            <NavLink
+              className={({ isActive }) => {
+                return `rounded flex items-center p-2 border-2 ${isActive ? '' : 'border-transparent'}`
+              }}
+              to='/'
+            >
+              <HiOutlineArrowLeftOnRectangle className='mr-2 text-xl' />Home
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </div>
