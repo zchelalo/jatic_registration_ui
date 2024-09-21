@@ -3,9 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { Layout } from '@/components/Layout'
 import { Home } from '@/modules/home/ui/pages/Home'
-import { SignIn } from '@/modules/auth/ui/pages/SignIn'
 import { SignUp } from '@/modules/auth/ui/pages/SignUp'
-import { AboutJatic } from '@/modules/about/ui/pages/About'
 import { Error404 } from '@/components/Error404'
 
 function Router() {
@@ -26,21 +24,9 @@ function Router() {
               )}
             />
             <Route
-              path='/sign-in'
-              element={(
-                  <SignIn />
-              )}
-            />
-            <Route
               path='/sign-up'
               element={(
                   <SignUp />
-              )}
-            />
-            <Route
-              path='/acerca-de-jatic'
-              element={(
-                <AboutJatic/>
               )}
             />
           </Routes>

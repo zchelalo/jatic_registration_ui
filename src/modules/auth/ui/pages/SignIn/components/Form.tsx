@@ -53,7 +53,7 @@ function Form() {
     >
       <div className='w-full flex flex-col justify-center '>
         <label htmlFor='email' className='mb-1 sm:text-lg'>
-          Email
+          Correo
         </label>
         <Input
           type='email'
@@ -67,7 +67,7 @@ function Form() {
       </div>
       <div className='w-full flex flex-col justify-center mt-4'>
         <label htmlFor='password' className='mb-1 sm:text-lg'>
-          Password
+          Contraseña
         </label>
         <Input
           type='password'

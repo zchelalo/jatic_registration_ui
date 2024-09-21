@@ -1,39 +1,45 @@
-import { Slider } from '@/modules/home/ui/pages/components/Slider'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { SignIn } from '@/modules/auth/ui/pages/SignIn'
+import { SignUp } from '@/modules/auth/ui/pages/SignUp'
+
+
+
+enum Tab {
+  REGISTRARSE = 'registrarse',
+  INICIAR_SESION = 'iniciarSesion',
+  ASISTENCIA = 'asistencia'
+}
+
 
 function Home() {
-
-  const images = [
-    'https://jatic.mx/img/logo_jatic_2024_grande.png',
-    'https://jatic.mx/img/logo_jatic_2024_grande.png',
-    'https://jatic.mx/img/logo_jatic_2024_grande.png',
-    'https://jatic.mx/img/logo_jatic_2024_grande.png',
-  ]
-
   return (
-    <div>
-      <h1 className='flex justify-center items-center text-6xl text-slate-900 py-7'>Jatic 2024</h1>
-      <Slider  images={images} />
-
-      <p className='flex justify-center items-center text-2xl text-slate-900 p-5'>
-        Elige tu taller
-      </p>
-      <select 
-        name=""
-        id=""
-        className='w-full bg text p-2 rounded'
-      >
-        <option value="1">Taller 1</option>
-        <option value="2">Taller 2</option>
-        <option value="3">Taller 3</option>
-        <option value="4">Taller 4</option>
-        <option value="5">Taller 5</option>
-        <option value="6">Taller 6</option>
-        <option value="7">Taller 7</option>
-        <option value="8">Taller 8</option>
-        <option value="9">Taller 9</option>
-        <option value="10">Taller 10</option>
-      </select>
-    </div>
+    <>
+      <div className='h-screen w-full flex justify-center items-center p-6'>
+        <div className='w-1/3 bg-secondary flex h-full rounded-lg p-4'>
+          <Tabs defaultValue='account' className='h-full w-full'>
+            <TabsList className='flex justify-between w-full bg-transparent items-start mb-4'>
+              <TabsTrigger value={Tab.REGISTRARSE} className='w-1/3 m-1 text-lg rounded text-white hover:bg-slate-200 hover:text-black'>
+                Regístrate
+              </TabsTrigger>
+              <TabsTrigger value={Tab.INICIAR_SESION} className='w-1/3 m-1 text-lg rounded text-white hover:bg-slate-200 hover:text-black'>Iniciar sesión</TabsTrigger>
+              <TabsTrigger value={Tab.ASISTENCIA} className='w-1/3 m-1 text-lg rounded text-white hover:bg-slate-200 hover:text-black'>Asistencia</TabsTrigger>
+            </TabsList>
+            <div className='p-2'>
+              <TabsContent value={Tab.REGISTRARSE}>
+                <SignUp />
+              </TabsContent>
+              <TabsContent value={Tab.INICIAR_SESION}>
+                <SignIn />
+              </TabsContent>
+              <TabsContent value={Tab.ASISTENCIA}>Haz cambios en tu cuenta aquí.</TabsContent>
+            </div>
+          </Tabs>
+        </div>
+        <div className='w-2/3 flex items-center justify-center h-full'>
+          <img src="https://jatic.mx/img/logo_jatic_2024_grande.png" alt="logo_jatic_2024_grande" className="max-h-full" />
+        </div>
+      </div>
+    </>
   )
 }
 
