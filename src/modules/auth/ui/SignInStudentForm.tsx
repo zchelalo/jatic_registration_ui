@@ -1,4 +1,4 @@
-import { AxiosRepository } from '@/modules/auth/infrastructure/repositories/axios'
+import { MemoryRepository } from '@/modules/auth/infrastructure/repositories/memory'
 import { AuthUseCase } from '@/modules/auth/application/use_cases/auth'
 
 import { z } from 'zod'
@@ -12,10 +12,10 @@ import { Button } from '@/components/Button'
 import { Input } from '@/components/Input'
 import { ErrorForm } from '@/components/ErrorForm'
 
-const authRepository = new AxiosRepository()
+const authRepository = new MemoryRepository()
 const authUseCase = new AuthUseCase(authRepository)
 
-function Form() {
+function SignInStudentForm() {
   const auth = useAuth()
 
   const SignInSchema = z.object({
@@ -82,7 +82,7 @@ function Form() {
 
       <Button
         type='submit'
-        className='bg-hover self-center mt-8'
+        className='w-full bg-hover self-center mt-8'
       >
         Sign In
       </Button>
@@ -90,4 +90,4 @@ function Form() {
   )
 }
 
-export { Form }
+export { SignInStudentForm }

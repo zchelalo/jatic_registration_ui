@@ -1,7 +1,7 @@
 import { UserEntity } from '@/modules/user/domain/entity'
 import { AuthRepository } from '@/modules/auth/domain/repository'
 
-import { signInSchema, signUpSchema } from '@/modules/auth/application/schemas/auth'
+import { signInSchema, signUpStudentSchema } from '@/modules/auth/application/schemas/auth'
 
 export class AuthUseCase {
   private readonly authRepository: AuthRepository
@@ -10,19 +10,10 @@ export class AuthUseCase {
     this.authRepository = authRepository
   }
 
-  async signIn(email: string, password: string): Promise<UserEntity> {
-    signInSchema.parse({ email, password })
+  async signUpStudent(registrationNumber: string, name: string, lastName1: string, email: string, password: string, utID: string, careerID: string, lastName2?: string): Promise<UserEntity> {
+    signUpStudentSchema.parse({ registrationNumber, name, lastName1, email, password, utID, careerID, lastName2 })
 
-    return this.authRepository.signIn(email, password)
+    return this.authRepository.signUpStudent(registrationNumber, name, lastName1, email, password, utID, careerID, lastName2)
   }
 
-  async signUp(email: string, password: string, name: string): Promise<UserEntity> {
-    signUpSchema.parse({ email, password, name })
-
-    return this.authRepository.signUp(email, password, name)
-  }
-
-  async signOut(): Promise<void> {
-    return this.authRepository.signOut()
-  }
 }

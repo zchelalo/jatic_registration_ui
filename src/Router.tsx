@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { Layout } from '@/components/Layout'
 import { Home } from '@/modules/home/ui/pages/Home'
-import { SignUp } from '@/modules/auth/ui/pages/SignUp'
 import { Error404 } from '@/components/Error404'
 
 function Router() {
@@ -21,12 +20,6 @@ function Router() {
               path='/'
               element={(
                   <Home />
-              )}
-            />
-            <Route
-              path='/sign-up'
-              element={(
-                  <SignUp />
               )}
             />
           </Routes>

@@ -1,7 +1,5 @@
-import { UserEntity } from '@/modules/user/domain/entity'
+import { StudentEntity } from '@/modules/student/domain/entity'
 
 export interface AuthRepository {
-  signIn(email: string, password: string): Promise<UserEntity>
-  signUp(email: string, password: string, name: string): Promise<UserEntity>
-  signOut(): Promise<void>
+  signUpStudent(registrationNumber: string, name: string, lastName1: string, email: string, password: string, utID: string, careerID: string, lastName2?: string,): Promise<StudentEntity>
 }
