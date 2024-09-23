@@ -11,7 +11,7 @@ enum Tab {
 }
 
 
-function Home() {
+function Landing() {
   return (
     <>
       <div className='h-full w-full flex justify-center items-center p-6'>
@@ -47,4 +47,4 @@ function Home() {
   )
 }
 
-export { Home }
+export { Landing }

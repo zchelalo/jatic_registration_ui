@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 
 import { Layout } from '@/components/Layout'
-import { Home } from '@/modules/home/ui/pages/Home'
+import { Landing } from '@/modules/landing/ui/pages/Landing'
+import { Home } from '@/modules/Home/ui/Home'
 import { Error404 } from '@/components/Error404'
 
 function Router() {
@@ -18,6 +19,12 @@ function Router() {
             />
             <Route
               path='/'
+              element={(
+                  <Landing />
+              )}
+            />
+            <Route
+              path='/Home'
               element={(
                   <Home />
               )}

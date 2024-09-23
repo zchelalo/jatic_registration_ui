@@ -21,6 +21,10 @@
   font-style: normal
 }
 
+.btn {
+  @apply bg-gray-800 hover:bg-gray-700 text-gray-100 font-medium px-7 py-1.5 rounded;
+}
+  
 .bg {
   @apply bg-[var(--color-primary)] text;
 }
@@ -77,6 +81,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -109,6 +114,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
