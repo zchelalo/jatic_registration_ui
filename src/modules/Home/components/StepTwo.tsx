@@ -1,19 +1,46 @@
+import { useState, useEffect } from 'react'
+import { MemoryRepository as TallerMemoryRepository } from '@/modules/taller17/infrastructure/repositories/memory'
+import { TallerUseCase } from '@/modules/taller17/application/use_cases/taller17'
+import { TallerEntity } from '@/modules/taller17/domain/entity'
+import { toast } from 'sonner'
 
 function StepTwo() {
+
+  const tallerRepository = new TallerMemoryRepository()
+  const tallerUseCase = new TallerUseCase(tallerRepository)
+
+  const [tallers, setTallers] = useState<TallerEntity[]>()
+
+  useEffect(() => {
+    const fetchTallers = async () => {
+      try {
+        const response = await tallerUseCase.listTaller17(1, 10)
+        setTallers(response)
+      } catch (error) {
+        console.error(error)
+        toast.error('An error occurred while trying to fetch the tallers')
+      }
+    }
+
+    fetchTallers()
+  }, [])
 
   return (
     <div className="w-full">
       <div>
-        <h1 className="text-2xl sm:text-4xl font-bold py-3">Talleres disponibles del 17 de Septiembre</h1>
+        <h1 className="text-2xl sm:text-4xl font-bold py-3">Talleres disponibles del 17 de Octubre</h1>
       </div>
       <select
         className="w-full h-10 border border-gray-300 rounded-md px-2"
         name="workshop"
         id="workshop"
       >
-        <option value="1">Taller de React</option>
-        <option value="2">Taller de Vue</option>
-        <option value="3">Taller de Angular</option>
+        <option value="">Selecciona un taller</option>
+        {tallers?.map((taller) => (
+          <option key={taller.id} value={taller.id}>
+            {taller.key}
+          </option>
+        ))}
       </select>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
         <div>
