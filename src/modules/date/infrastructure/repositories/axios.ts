@@ -38,7 +38,8 @@ export class AxiosRepository implements DateRepository {
         }
 
         return newDate
-      })
+      }),
+      meta: body.meta
     }
 
     return data
