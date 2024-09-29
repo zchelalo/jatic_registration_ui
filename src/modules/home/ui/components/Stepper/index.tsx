@@ -88,13 +88,25 @@ const Stepper = ({
       return
     }
 
+    let toBack = 0
     if (i === currentStep - 1) {
-      setSelectedClasses(prev => prev.slice(0, prev.length - 1))
+      console.log(selectedClasses.length - 1)
+      for (let j = selectedClasses.length - 1; j > 0; j--) {
+        const selectedClass = selectedClasses[j]
+
+        if (selectedClass.class.id === selectedClasses[j - 1].class.id) {
+          toBack++
+        } else {
+          break
+        }
+      }
+
+      setSelectedClasses(prev => prev.slice(0, prev.length - 1 - toBack))
       setComplete(false)
     }
 
     setNext(false)
-    setCurrentStep(i)
+    setCurrentStep(i - toBack)
   }
 
   return (
