@@ -11,7 +11,6 @@ export const authRequestInterceptor = async (config: InternalAxiosRequestConfig)
   try {
     config = await baseRequestInterceptor(config)
     config.withCredentials = true
-    console.log('interceptor auth')
     return config
   } catch (error) {
     return baseErrorHandler(error as AxiosError)
@@ -21,7 +20,6 @@ export const authRequestInterceptor = async (config: InternalAxiosRequestConfig)
 export const authResponseInterceptor = async (response: AxiosResponse) => {
   try {
     response = await baseResponseInterceptor(response)
-    console.log('interceptor auth')
     if (response.status === 401) {
       localStorage.removeItem(LocalStorageKey.USER)
     }

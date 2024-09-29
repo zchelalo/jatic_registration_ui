@@ -6,7 +6,7 @@ const Header = forwardRef<HTMLHeadElement>((props, ref) => {
   return (
     <header
       ref={ref}
-      className='bg-secondary text-secondary w-full flex justify-between items-center border-b-2 h-20 z-30 px-4'
+      className='back-secondary w-full flex justify-between items-center border-b-2 h-20 z-30 px-4'
     >
       <div className='w-full mx-auto flex justify-between items-center py-4'>
         <figure id='logo' className=''>
@@ -16,8 +16,8 @@ const Header = forwardRef<HTMLHeadElement>((props, ref) => {
         </figure>
         <nav id='nav-menu-container'>
           <ul className='flex space-x-8'>
-            <li className='mr-4 hover:decoration-orange-600'>
-              <NavLink to='/' className='text-lg hover:underline underline-offset-1 decoration-orange-600'>Inicio</NavLink>
+            <li className='mr-4'>
+              <NavLink to='/' className='text-lg hover:underline hover:underline-offset-1 hover:decoration-[var(--color-quaternary)]'>Inicio</NavLink>
             </li>
           </ul>
         </nav>

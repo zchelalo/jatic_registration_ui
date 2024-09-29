@@ -14,7 +14,7 @@ function AuthRoute({ children }: AuthRouteProps) {
   }
 
   if (!auth.user) {
-    return <Navigate to='/sign-in' />
+    return <Navigate to='/sign-up' />
   }
 
   return children

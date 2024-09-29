@@ -50,9 +50,9 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [navigate])
 
-  const signIn = (user: UserEntity) => {
-    localStorage.setItem(LocalStorageKey.USER, JSON.stringify(user))
-    setUser(user)
+  const signIn = (userValue: UserEntity) => {
+    localStorage.setItem(LocalStorageKey.USER, JSON.stringify(userValue))
+    setUser(userValue)
     setVerifiedUser(true)
   }
 
@@ -60,7 +60,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     localStorage.removeItem(LocalStorageKey.USER)
     setUser(undefined)
     setVerifiedUser(false)
-    navigate('/sign-in')
+    navigate('/')
   }
 
   const auth = {

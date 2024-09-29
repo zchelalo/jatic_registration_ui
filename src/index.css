@@ -6,13 +6,16 @@
 
 :root {
   --color-primary: #f4f4f4;
-  --color-primary-hover: #e6e3e3;
-  --color-secondary: rgba(5, 24, 95, 0.98);
-  --color-tertiary: rgba(0, 26, 119, 0.98);
-  --color-quaternary: rgba(12, 25, 71, 0.98);
-  --color-quinary: rgba(6, 12, 34, 0.98);
-  --color-quinary-hover: rgba(4, 7, 20, 0.98);
-  --color-senary: #960E53;
+  --color-primary-hover: #d4d4d4;
+
+  --color-secondary: rgba(6, 12, 34, 0.98);
+  --color-secondary-hover: rgba(19, 30, 68, 0.98);
+
+  --color-tertiary: #73d026;
+  --color-tertiary-hover: #5fac20;
+
+  --color-quaternary: #f89b22;
+  --color-quaternary-hover: #e08c1f;
 }
 
 * {
@@ -21,36 +24,36 @@
   font-style: normal
 }
 
-.btn {
-  @apply bg-gray-800 hover:bg-gray-700 text-gray-100 font-medium px-7 py-1.5 rounded;
-}
-  
-.bg {
-  @apply bg-[var(--color-primary)] text;
+.back {
+  @apply bg-[var(--color-primary)] text !important;
 }
 
-.bg-hover {
-  @apply bg-[var(--color-primary)] text hover:bg-[var(--color-primary-hover)];
-}
-
-.bg-secondary {
-  @apply bg-[var(--color-quinary)] text-secondary;
-}
-
-.bg-secondary-hover {
-  @apply bg-[var(--color-quinary)] text-secondary hover:bg-[var(--color-quinary-hover)];
-}
-
-.bg-tertiary {
-  @apply bg-[var(--color-tertiary)];
+.back-hover {
+  @apply bg-[var(--color-primary)] text hover:bg-[var(--color-primary-hover)] !important;
 }
 
 .text {
-  @apply text-[var(--color-quinary)];
+  @apply text-[var(--color-secondary)] !important;
+}
+
+.back-secondary {
+  @apply bg-[var(--color-secondary)] text-secondary !important;
+}
+
+.back-secondary-hover {
+  @apply bg-[var(--color-secondary)] text-secondary hover:bg-[var(--color-secondary-hover)] !important;
 }
 
 .text-secondary {
-  @apply text-[var(--color-primary)];
+  @apply text-[var(--color-primary)] !important;
+}
+
+.btn {
+  @apply back-secondary-hover font-medium px-7 py-1.5 rounded !important;
+}
+
+.btn-secondary {
+  @apply back-hover font-medium px-7 py-1.5 rounded !important;
 }
 
 @layer base {

@@ -1,5 +1,5 @@
 export interface AuthEntity {
-  name?: string
+  registrationNumber?: string
   email: string
   password: string
 }

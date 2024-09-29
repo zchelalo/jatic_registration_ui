@@ -1,7 +1,11 @@
+import { CareerEntity } from '@/modules/career/domain/entity'
 import { UserEntity } from '@/modules/user/domain/entity'
+import { UtEntity } from '@/modules/ut/domain/entity'
 
-export interface StudentEntity extends UserEntity {
+export interface StudentEntity {
+  id?: string
   registrationNumber: string
-  utKey: string
-  careerKey: string
+  user: UserEntity
+  ut: UtEntity
+  career: CareerEntity
 }

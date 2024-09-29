@@ -5,6 +5,10 @@ export const signInSchema = z.object({
   password: z.string().min(8)
 })
 
+export const signInStudentSchema = signInSchema.extend({
+  registrationNumber: z.string().min(6)
+})
+
 export const signUpStudentSchema = signInSchema.extend({
   registrationNumber: z.string().min(1),
   name: z.string().min(3),

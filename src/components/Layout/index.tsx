@@ -21,15 +21,16 @@ function Layout({
   }, [headerRef])
 
   return (
-    <div className='min-h-screen relative bg flex flex-col'>
+    <div className='min-h-screen relative back flex flex-col'>
       <Header ref={headerRef} />
-      
+
       <main
         className='w-full flex flex-col text-pretty overflow-y-auto'
         style={{ height: `calc(100vh - ${headerHeight}px)` }}
       >
         {children}
       </main>
+
       <Toaster
         closeButton={true}
         richColors={true}

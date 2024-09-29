@@ -1,11 +1,11 @@
 import { AuthEntity } from '@/modules/auth/domain/entity'
 
 export class AuthValue implements AuthEntity {
-  readonly name?: string
+  readonly registrationNumber?: string
   readonly email: string
   readonly password: string
 
-  constructor(email: string, password: string, name?: string) {
+  constructor(email: string, password: string, registrationNumber?: string) {
     if (!this.isValidEmail(email)) {
       throw new Error('invalid email')
     }
@@ -16,10 +16,10 @@ export class AuthValue implements AuthEntity {
     }
     this.password = password
 
-    if (name && !this.isValidName(name)) {
+    if (registrationNumber && !this.isValidRegistrationNumber(registrationNumber)) {
       throw new Error('invalid name')
     }
-    this.name = name
+    this.registrationNumber = registrationNumber
   }
 
   private isValidEmail(email: string): boolean {
@@ -31,7 +31,7 @@ export class AuthValue implements AuthEntity {
     return password.length >= 8
   }
 
-  private isValidName(name: string): boolean {
-    return name.length >= 3
+  private isValidRegistrationNumber(registrationNumber: string): boolean {
+    return registrationNumber.length >= 3
   }
 }

@@ -1,14 +1,14 @@
 import { AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios'
 
 export type SuccessResponse = {
-  status: string
+  code: string
   message: string
   data: object | string | null
   meta: object | null
 }
 
 export type ErrorResponse = {
-  status: string
+  code: string
   message: string
   details: object | string | null
 }
@@ -26,9 +26,14 @@ export const baseResponseInterceptor = async (response: AxiosResponse) => {
 
 export const baseErrorHandler = async (error: AxiosError) => {
   if (!error.response) {
-    return Promise.reject(error)
+    console.error('Network error or request not sent:', error.message)
+    return Promise.reject({
+      code: 'NETWORK_ERROR',
+      message: 'Network error or request not sent',
+      details: error.message
+    } as ErrorResponse)
   }
 
   error.response.data = error.response.data as ErrorResponse
-  return Promise.reject(error)
+  return Promise.reject(error.response.data)
 }

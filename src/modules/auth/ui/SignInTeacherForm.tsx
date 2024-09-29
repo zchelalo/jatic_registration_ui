@@ -26,15 +26,11 @@ import { toast } from 'sonner'
 const authRepository = new AxiosRepository()
 const authUseCase = new AuthUseCase(authRepository)
 
-function SignInStudentForm() {
+function SignInTeacherForm() {
   const auth = useAuth()
   const navigate = useNavigate()
 
-  const SignInStudentSchema = z.object({
-    registrationNumber: z
-      .string()
-      .min(6, { message: 'Registration number must be at least 6 characters long' }),
-
+  const SignInTeacherSchema = z.object({
     email: z
       .string()
       .email({ message: 'Invalid email address' }),
@@ -43,21 +39,20 @@ function SignInStudentForm() {
       .min(8, { message: 'Password must be at least 8 characters long' }),
   })
 
-  type SignInStudentSchemaType = z.infer<typeof SignInStudentSchema>
+  type SignInTeacherSchemaType = z.infer<typeof SignInTeacherSchema>
 
-  const form = useForm<SignInStudentSchemaType>({
-    resolver: zodResolver(SignInStudentSchema),
+  const form = useForm<SignInTeacherSchemaType>({
+    resolver: zodResolver(SignInTeacherSchema),
     defaultValues: {
-      registrationNumber: '',
       email: '',
       password: ''
     }
   })
 
 
-  const onSubmit: SubmitHandler<SignInStudentSchemaType> = async (data) => {
+  const onSubmit: SubmitHandler<SignInTeacherSchemaType> = async (data) => {
     try {
-      const response = await authUseCase.signInStudent(data.registrationNumber, data.email, data.password)
+      const response = await authUseCase.signInTeacher(data.email, data.password)
       auth.signIn(response.data.user)
       navigate('/')
     } catch (error) {
@@ -73,26 +68,6 @@ function SignInStudentForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className='w-full h-full flex flex-col items-center justify-center space-y-6 pb-4'
         >
-          <FormField
-            control={form.control}
-            name='registrationNumber'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <FormLabel>
-                  Matricula
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type='text'
-                    placeholder='123456'
-                    className='w-full back text'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name='email'
@@ -147,4 +122,4 @@ function SignInStudentForm() {
   )
 }
 
-export { SignInStudentForm }
+export { SignInTeacherForm }

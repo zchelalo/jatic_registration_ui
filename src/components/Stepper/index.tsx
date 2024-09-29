@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import '@/components/Stepper/Stepper.css'
-import { StepOne } from '@/modules/Home/components/StepOne'
-import { StepTwo } from '@/modules/Home/components/StepTwo'
-import { StepThree } from '@/modules/Home/components/StepThree'
+
 import { toast } from 'sonner'
+
+import { StepOne } from '@/modules/home/ui/components/StepOne'
+import { StepTwo } from '@/modules/home/ui/components/StepTwo'
+import { StepThree } from '@/modules/home/ui/components/StepThree'
+
 import { TiTick } from 'react-icons/ti'
 
-
+import '@/components/Stepper/Stepper.css'
 
 const Stepper = () => {
   const steps = [' ', ' ', ' ']
