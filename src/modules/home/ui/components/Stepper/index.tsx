@@ -9,6 +9,7 @@ import { TiTick } from 'react-icons/ti'
 import '@/modules/home/ui/components/Stepper/Stepper.css'
 import { DateEntity } from '@/modules/date/domain/entity'
 import { ClassEntity } from '@/modules/class/domain/entity'
+import { Confirm } from '../Confirm'
 
 export type SelectedClassType = {
   date: DateEntity
@@ -37,7 +38,9 @@ const Stepper = ({
       if (i + 1 === currentStep) {
         if (typeof step === 'string') {
           return (
-            <div>Confirmar</div>
+            <Confirm
+              selectedClasses={selectedClasses}
+            />
           )
         }
 
@@ -90,7 +93,6 @@ const Stepper = ({
 
     let toBack = 0
     if (i === currentStep - 1) {
-      console.log(selectedClasses.length - 1)
       for (let j = selectedClasses.length - 1; j > 0; j--) {
         const selectedClass = selectedClasses[j]
 

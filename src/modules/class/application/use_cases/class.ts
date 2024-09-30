@@ -1,7 +1,7 @@
 import { ClassRepository } from '@/modules/class/domain/repository'
 import { Response } from '@/types/response'
 import { ClassEntity } from '@/modules/class/domain/entity'
-import { listClassesSchema } from '@/modules/class/application/schemas/class'
+import { listClassesSchema, suscribeClassSchema } from '@/modules/class/application/schemas/class'
 
 export class ClassUseCase {
   private readonly classRepository: ClassRepository
@@ -14,5 +14,11 @@ export class ClassUseCase {
     listClassesSchema.parse({ page, limit })
 
     return this.classRepository.listClasses(page, limit)
+  }
+
+  async suscribeClass(classIds: string[]): Promise<Response<string>> {
+    suscribeClassSchema.parse({ classIds })
+
+    return this.classRepository.suscribeClass(classIds)
   }
 }

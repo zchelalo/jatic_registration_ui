@@ -104,7 +104,7 @@ function Step({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='w-full h-full flex flex-col items-center justify-center space-y-6 pb-4'
+          className='w-full h-full flex flex-col items-center justify-center space-y-6 pb-4 px-2'
         >
           <h2 className='text-xl font-medium pt-2'>
             Día {moment(date.day).utc(false).format('DD-MM-YYYY')} de JATIC

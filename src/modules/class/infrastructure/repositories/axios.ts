@@ -83,4 +83,13 @@ export class AxiosRepository implements ClassRepository {
 
     return data
   }
+
+  async suscribeClass(classIds: string[]): Promise<Response<string>> {
+    const response = await axiosClient.post('/enrollments', {
+      class_date_ids: classIds
+    })
+    const body: Response<string> = response.data
+
+    return body
+  }
 }
