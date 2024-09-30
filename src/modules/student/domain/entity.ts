@@ -8,4 +8,5 @@ export interface StudentEntity {
   user: UserEntity
   ut: UtEntity
   career: CareerEntity
+  alreadySuscribedToClasses: boolean
 }

@@ -10,25 +10,28 @@ type SignUpInStudentResponse = {
   code: number
   message: string
   data: {
-    id: string
-    registration_number: string
-    user: {
+    student: {
       id: string
-      name: string
-      last_name_1: string
-      last_name_2: string
-      email: string
-      password: string
-      user_type: string
-    },
-    ut: {
-      id: string
-      key: string
-    },
-    career: {
-      id: string
-      key: string
+      registration_number: string
+      user: {
+        id: string
+        name: string
+        last_name_1: string
+        last_name_2: string
+        email: string
+        password: string
+        user_type: string
+      },
+      ut: {
+        id: string
+        key: string
+      },
+      career: {
+        id: string
+        key: string
+      }
     }
+    already_suscribed_to_classes: boolean
   }
 }
 
@@ -68,25 +71,26 @@ export class AxiosRepository implements AuthRepository {
       code: body.code,
       message: body.message,
       data: {
-        id: body.data.id,
-        registrationNumber: body.data.registration_number,
+        id: body.data.student.id,
+        registrationNumber: body.data.student.registration_number,
         user: {
-          id: body.data.user.id,
-          name: body.data.user.name,
-          lastName1: body.data.user.last_name_1,
-          lastName2: body.data.user.last_name_2,
-          email: body.data.user.email,
-          password: body.data.user.password,
+          id: body.data.student.user.id,
+          name: body.data.student.user.name,
+          lastName1: body.data.student.user.last_name_1,
+          lastName2: body.data.student.user.last_name_2,
+          email: body.data.student.user.email,
+          password: body.data.student.user.password,
           userType: UserType.STUDENT
         },
         ut: {
-          id: body.data.ut.id,
-          key: body.data.ut.key
+          id: body.data.student.ut.id,
+          key: body.data.student.ut.key
         },
         career: {
-          id: body.data.career.id,
-          key: body.data.career.key
-        }
+          id: body.data.student.career.id,
+          key: body.data.student.career.key
+        },
+        alreadySuscribedToClasses: body.data.already_suscribed_to_classes
       }
     }
     return data
@@ -104,25 +108,26 @@ export class AxiosRepository implements AuthRepository {
       code: body.code,
       message: body.message,
       data: {
-        id: body.data.id,
-        registrationNumber: body.data.registration_number,
+        id: body.data.student.id,
+        registrationNumber: body.data.student.registration_number,
         user: {
-          id: body.data.user.id,
-          name: body.data.user.name,
-          lastName1: body.data.user.last_name_1,
-          lastName2: body.data.user.last_name_2,
-          email: body.data.user.email,
-          password: body.data.user.password,
+          id: body.data.student.user.id,
+          name: body.data.student.user.name,
+          lastName1: body.data.student.user.last_name_1,
+          lastName2: body.data.student.user.last_name_2,
+          email: body.data.student.user.email,
+          password: body.data.student.user.password,
           userType: UserType.STUDENT
         },
         ut: {
-          id: body.data.ut.id,
-          key: body.data.ut.key
+          id: body.data.student.ut.id,
+          key: body.data.student.ut.key
         },
         career: {
-          id: body.data.career.id,
-          key: body.data.career.key
-        }
+          id: body.data.student.career.id,
+          key: body.data.student.career.key
+        },
+        alreadySuscribedToClasses: body.data.already_suscribed_to_classes
       }
     }
     return data

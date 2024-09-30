@@ -1,5 +1,6 @@
 import { UserEntity } from '@/modules/user/domain/entity'
 
+import { UserType } from '@/constants/user_types'
 import { LocalStorageKey } from '@/constants/localstorage'
 
 import { createContext, useEffect, useState } from 'react'
@@ -50,13 +51,22 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [navigate])
 
-  const signIn = (userValue: UserEntity) => {
+  const signIn = async (userValue: UserEntity, alreadySuscribedToClasses?: boolean) => {
+    if (userValue.userType === UserType.STUDENT) {
+      if (alreadySuscribedToClasses === undefined) {
+        await logout()
+        throw new Error('alreadySuscribedToClasses is required for student users')
+      }
+
+      localStorage.setItem(LocalStorageKey.ALREADY_SUSCRIBED_TO_CLASSES, JSON.stringify(alreadySuscribedToClasses))
+    }
+
     localStorage.setItem(LocalStorageKey.USER, JSON.stringify(userValue))
     setUser(userValue)
     setVerifiedUser(true)
   }
 
-  const logout = () => {
+  const logout = async () => {
     localStorage.removeItem(LocalStorageKey.USER)
     setUser(undefined)
     setVerifiedUser(false)

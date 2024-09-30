@@ -151,7 +151,7 @@ function SignUpStudentForm() {
   const onSubmit: SubmitHandler<SignUpSchemaType> = async (data) => {
     try {
       const response = await authUseCase.signUpStudent(data.registrationNumber, data.name, data.lastName1, data.email, data.password, data.utID, data.careerID, data.lastName2)
-      auth.signIn(response.data.user)
+      await auth.signIn(response.data.user, response.data.alreadySuscribedToClasses)
       navigate('/')
     } catch (error) {
       console.error(error)

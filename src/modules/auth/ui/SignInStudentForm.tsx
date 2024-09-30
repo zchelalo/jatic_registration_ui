@@ -58,7 +58,7 @@ function SignInStudentForm() {
   const onSubmit: SubmitHandler<SignInStudentSchemaType> = async (data) => {
     try {
       const response = await authUseCase.signInStudent(data.registrationNumber, data.email, data.password)
-      auth.signIn(response.data.user)
+      await auth.signIn(response.data.user, response.data.alreadySuscribedToClasses)
       navigate('/')
     } catch (error) {
       console.error(error)

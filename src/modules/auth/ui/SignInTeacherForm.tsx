@@ -53,7 +53,7 @@ function SignInTeacherForm() {
   const onSubmit: SubmitHandler<SignInTeacherSchemaType> = async (data) => {
     try {
       const response = await authUseCase.signInTeacher(data.email, data.password)
-      auth.signIn(response.data.user)
+      await auth.signIn(response.data.user)
       navigate('/')
     } catch (error) {
       console.error(error)
