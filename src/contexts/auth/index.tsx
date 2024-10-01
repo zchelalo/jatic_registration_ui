@@ -14,6 +14,7 @@ type AuthContextType = {
   verifiedUser: boolean
   signIn: (user: UserEntity) => void
   logout: () => void
+  alreadySuscribedToClasses?: boolean
 }
 
 const defaultAuthContext: AuthContextType = {
@@ -21,7 +22,8 @@ const defaultAuthContext: AuthContextType = {
   setUser: () => {},
   verifiedUser: false,
   signIn: () => {},
-  logout: () => {}
+  logout: () => {},
+  alreadySuscribedToClasses: undefined
 }
 
 const authRepository = new AxiosRepository()
