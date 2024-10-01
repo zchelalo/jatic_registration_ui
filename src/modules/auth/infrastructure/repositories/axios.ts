@@ -159,4 +159,8 @@ export class AxiosRepository implements AuthRepository {
     }
     return data
   }
+
+  async signOut(): Promise<void> {
+    await axiosClient.post('/auth/sign-out')
+  }
 }

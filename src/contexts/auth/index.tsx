@@ -1,4 +1,6 @@
 import { UserEntity } from '@/modules/user/domain/entity'
+import { AxiosRepository } from '@/modules/auth/infrastructure/repositories/axios'
+import { AuthUseCase } from '@/modules/auth/application/use_cases/auth'
 
 import { UserType } from '@/constants/user_types'
 import { LocalStorageKey } from '@/constants/localstorage'
@@ -21,6 +23,9 @@ const defaultAuthContext: AuthContextType = {
   signIn: () => {},
   logout: () => {}
 }
+
+const authRepository = new AxiosRepository()
+const authUseCase = new AuthUseCase(authRepository)
 
 const AuthContext = createContext<AuthContextType>(defaultAuthContext)
 
@@ -74,6 +79,9 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   const logout = async () => {
+    await authUseCase.signOut()
+
+    localStorage.removeItem(LocalStorageKey.ALREADY_SUSCRIBED_TO_CLASSES)
     localStorage.removeItem(LocalStorageKey.USER)
     setUser(undefined)
     setVerifiedUser(false)

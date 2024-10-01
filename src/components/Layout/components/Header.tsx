@@ -1,8 +1,12 @@
 import { forwardRef } from 'react'
 
+import { useAuth } from '@/contexts/auth/useAuth'
+
 import { NavLink } from 'react-router-dom'
 
 const Header = forwardRef<HTMLHeadElement>((props, ref) => {
+  const auth = useAuth()
+
   return (
     <header
       ref={ref}
@@ -15,10 +19,39 @@ const Header = forwardRef<HTMLHeadElement>((props, ref) => {
           </NavLink>
         </figure>
         <nav id='nav-menu-container'>
-          <ul className='flex space-x-8'>
-            <li className='mr-4'>
-              <NavLink to='/' className='text-lg hover:underline hover:underline-offset-1 hover:decoration-[var(--color-quaternary)]'>Inicio</NavLink>
-            </li>
+          <ul className='flex'>
+            {auth.user ? (
+              <>
+                <li>
+                  <NavLink
+                    to='/'
+                    className={({ isActive }) => `text-lg ${isActive ? 'underline underline-offset-4 decoration-[var(--color-quaternary)]' : ''} hover:underline hover:underline-offset-4 hover:decoration-[var(--color-quaternary)]`}
+                  >
+                    Inicio
+                  </NavLink>
+                </li>
+                <li className='ml-4'>
+                  <button
+                    type='button'
+                    className='text-lg font-normal hover:underline hover:underline-offset-4 hover:decoration-[var(--color-quaternary)]'
+                    onClick={async () => {
+                      auth.logout()
+                    }}
+                  >
+                    Cerrar sesión
+                  </button>
+                </li>
+              </>
+            ) : (
+              <li>
+                <NavLink
+                  to='/sign-up'
+                  className={({ isActive }) => `text-lg ${isActive ? 'underline underline-offset-4 decoration-[var(--color-quaternary)]' : ''} hover:underline hover:underline-offset-4 hover:decoration-[var(--color-quaternary)]`}
+                >
+                  Iniciar sesión
+                </NavLink>
+              </li>
+            )}
           </ul>
         </nav>
       </div>

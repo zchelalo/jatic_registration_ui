@@ -30,4 +30,8 @@ export class AuthUseCase {
 
     return this.authRepository.signInTeacher(email, password)
   }
+
+  async signOut(): Promise<void> {
+    return this.authRepository.signOut()
+  }
 }
