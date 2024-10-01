@@ -32,6 +32,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   const navigate = useNavigate()
 
   const [user, setUser] = useState<UserEntity>()
+  const [alreadySuscribedToClasses, setAlreadySuscribedToClasses] = useState<boolean>()
   const [verifiedUser, setVerifiedUser] = useState(false)
   
   useEffect(() => {
@@ -39,6 +40,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     if (userLocalStorage) {
       try {
+        const alreadySuscribedToClassesLocalStorage = localStorage.getItem(LocalStorageKey.ALREADY_SUSCRIBED_TO_CLASSES)
+        if (alreadySuscribedToClassesLocalStorage) {
+          setAlreadySuscribedToClasses(JSON.parse(alreadySuscribedToClassesLocalStorage))
+        }
+
         setUser(JSON.parse(userLocalStorage))
         setVerifiedUser(true)
       } catch (error) {
@@ -59,6 +65,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       }
 
       localStorage.setItem(LocalStorageKey.ALREADY_SUSCRIBED_TO_CLASSES, JSON.stringify(alreadySuscribedToClasses))
+      setAlreadySuscribedToClasses(alreadySuscribedToClasses)
     }
 
     localStorage.setItem(LocalStorageKey.USER, JSON.stringify(userValue))
@@ -78,7 +85,8 @@ function AuthProvider({ children }: AuthProviderProps) {
     setUser,
     signIn,
     logout,
-    verifiedUser
+    verifiedUser,
+    alreadySuscribedToClasses
   }
 
   return (

@@ -1,15 +1,28 @@
+import { DateEntity } from '@/modules/date/domain/entity'
+import { ClassEntity } from '@/modules/class/domain/entity'
+
 import { toast } from 'sonner'
+import moment from 'moment'
 
 import { useState } from 'react'
 
 import { Step } from '@/modules/home/ui/components/Step'
+import { Confirm } from '../Confirm'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 
 import { TiTick } from 'react-icons/ti'
+import { HiOutlineAcademicCap } from 'react-icons/hi2'
 
 import '@/modules/home/ui/components/Stepper/Stepper.css'
-import { DateEntity } from '@/modules/date/domain/entity'
-import { ClassEntity } from '@/modules/class/domain/entity'
-import { Confirm } from '../Confirm'
+import { DialogClose } from '@radix-ui/react-dialog'
 
 export type SelectedClassType = {
   date: DateEntity
@@ -113,7 +126,7 @@ const Stepper = ({
 
   return (
     <div className='w-full flex justify-center'>
-      <div className='w-full md:w-2/3 xl:w-1/2 py-7 px-8 md:px-0'>
+      <div className='relative w-full md:w-2/3 xl:w-1/2 py-8 px-8 md:px-0'>
         <div className='w-full flex justify-center'>
           {steps?.map((step, i) => (
             <button
@@ -131,8 +144,53 @@ const Stepper = ({
         <div className='flex justify-center items-center mt-6'>
           {renderStepContent()}
         </div>
-      </div>
 
+        <Dialog>
+          <DialogTrigger className='absolute right-0 bottom-0 rounded-full back-secondary p-3'>
+            <HiOutlineAcademicCap
+              className='text-3xl'
+            />
+          </DialogTrigger>
+          <DialogContent className='w-10/12 max-h-[80%] back-secondary border-0 overflow-y-auto rounded'>
+            <section className='w-full flex flex-col justify-center'>
+              <DialogHeader className='mb-4 mt-2 sm:px-2'>
+                <DialogTitle>
+                  Información de los talleres
+                </DialogTitle>
+              </DialogHeader>
+              <div className='w-full grid grid-cols-1 sm:grid-cols-2'>
+                {classes.map(classObtained => (
+                  <article key={classObtained.id} className='mb-4 sm:p-2'>
+                    <h2 className='font-medium'>
+                      {classObtained.name} | {classObtained.teacher.user.name} {classObtained.teacher.user.lastName1} {classObtained.teacher.user.lastName2} 
+                    </h2>
+                    <p className='text-sm'>
+                      {classObtained.description}
+                    </p>
+                    <ul className='text-pretty mt-1'>
+                      <h4 className='text-sm font-medium'>
+                        Fechas y horarios
+                      </h4>
+                      {classObtained.dates.map(date => (
+                        <li className='text-sm'>
+                          {moment(date.day).utc(false).format('DD-MM-YYYY')} | {moment(date.startTime).utc(true).format('HH:MM')} - {moment(date.endTime).utc(true).format('HH:MM')}
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+              <DialogFooter className='sm:justify-start my-2 sm:px-2'>
+                <DialogClose asChild>
+                  <Button type='button' className='btn-secondary'>
+                    Cerrar
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </section>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   )
 }

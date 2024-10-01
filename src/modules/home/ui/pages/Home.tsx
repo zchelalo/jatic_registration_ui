@@ -8,6 +8,7 @@ import { AxiosRepository as DateRepository } from '@/modules/date/infrastructure
 import { AxiosRepository as ClassRepository } from '@/modules/class/infrastructure/repositories/axios'
 
 import { useEffect, useState } from 'react'
+import { useAuth } from '@/contexts/auth/useAuth'
 
 import { Stepper } from '@/modules/home/ui/components/Stepper'
 
@@ -18,11 +19,17 @@ const classRepository = new ClassRepository()
 const classUseCase = new ClassUseCase(classRepository)
 
 function Home() {
+  const auth = useAuth()
+
   const [classes, setClasses] = useState<ClassEntity[]>()
   const [dates, setDates] = useState<DateEntity[]>()
 
   useEffect(() => {
     (async () => {
+      if (auth.alreadySuscribedToClasses) {
+        return
+      }
+
       const { data: datesData } = await dateUseCase.listDates(1, 100)
       setDates(datesData)
 
@@ -33,12 +40,20 @@ function Home() {
 
   return (
     <div className='h-full w-full flex justify-center p-4 sm:p-6'>
-      {classes && dates ?
+      {(!auth.alreadySuscribedToClasses && classes && dates) ? (
         <Stepper
           classes={classes}
           dates={dates}
         />
-      : undefined}
+      ) : undefined}
+
+      {auth.alreadySuscribedToClasses ? (
+        <div className='flex flex-col items-center justify-center'>
+          <h1 className='text-2xl sm:text-3xl font-bold text-center'>
+            You are already subscribed to classes
+          </h1>
+        </div>
+      ) : undefined}
     </div>
   )
 }

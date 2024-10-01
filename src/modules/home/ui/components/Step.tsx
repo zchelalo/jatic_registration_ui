@@ -28,7 +28,6 @@ import {
 } from '@/components/ui/form'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-
 type StepProps = {
   date: DateEntity
   classesToShow: ClassEntity[]
