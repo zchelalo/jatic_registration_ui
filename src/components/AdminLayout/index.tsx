@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { Outlet } from 'react-router-dom'
-import { Header } from '@/components/Layout/components/Header'
+import { Header } from '@/components/AdminLayout/components/Header'
 import { Toaster } from 'sonner'
 
-function Layout() {
+function AdminLayout() {
 
   const [headerHeight, setHeaderHeight] = useState(0)
   const headerRef = useRef<HTMLHeadElement>(null)
@@ -35,4 +35,4 @@ function Layout() {
   )
 }
 
-export { Layout }
+export { AdminLayout }

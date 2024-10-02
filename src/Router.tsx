@@ -2,21 +2,28 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { AuthProvider } from './contexts/auth'
 import { AuthRoute } from './contexts/auth/AuthRoute'
+import { AdminAuthRoute } from './contexts/auth/AdminAuthRoute'
 import { PublicRoute } from './contexts/auth/PublicRoute'
+import { AdminPublicRoute } from './contexts/auth/AdminPublicRoute'
 
 import { Layout } from '@/components/Layout'
+import { AdminLayout } from '@/components/AdminLayout'
+
 import { SignUp } from '@/modules/auth/ui/pages/SignUp'
 import { Home } from '@/modules/home/ui/pages/Home'
 import { Error404 } from '@/components/Error404'
+
+import { AdminSignIn } from '@/modules/admin/ui/pages/AdminSignIn'
 
 function Router() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Layout>
-          <Routes>
+
+        <Routes>
+          <Route element={<Layout />}>
             <Route
-              path='*'
+              path='/*'
               element={(
                 <Error404 />
               )}
@@ -37,8 +44,28 @@ function Router() {
                 </AuthRoute>
               )}
             />
-          </Routes>
-        </Layout>
+          </Route>
+
+          <Route element={<AdminLayout />}>
+            <Route
+              path='/admin/*'
+              element={(
+                <AdminAuthRoute>
+                  <Error404 />
+                </AdminAuthRoute>
+              )}
+            />
+            <Route
+              path='/admin/sign-in'
+              element={(
+                <AdminPublicRoute>
+                  <AdminSignIn />
+                </AdminPublicRoute>
+              )}
+            />
+          </Route>
+        </Routes>
+
       </AuthProvider>
     </BrowserRouter>
   )
