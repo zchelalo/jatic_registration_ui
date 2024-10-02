@@ -21,31 +21,21 @@ const Header = forwardRef<HTMLHeadElement>((props, ref) => {
         <nav id='nav-menu-container'>
           <ul className='flex'>
             {auth.user ? (
-              <>
-                <li>
-                  <NavLink
-                    to='/'
-                    className={({ isActive }) => `text-lg ${isActive ? 'underline underline-offset-4 decoration-[var(--color-quaternary)]' : ''} hover:underline hover:underline-offset-4 hover:decoration-[var(--color-quaternary)]`}
-                  >
-                    Inicio
-                  </NavLink>
-                </li>
-                <li className='ml-4'>
-                  <button
-                    type='button'
-                    className='text-lg font-normal hover:underline hover:underline-offset-4 hover:decoration-[var(--color-quaternary)]'
-                    onClick={async () => {
-                      auth.logout()
-                    }}
-                  >
-                    Cerrar sesión
-                  </button>
-                </li>
-              </>
+              <li className='ml-4'>
+                <button
+                  type='button'
+                  className='text-lg font-normal hover:underline hover:underline-offset-4 hover:decoration-[var(--color-quaternary)]'
+                  onClick={async () => {
+                    auth.logout()
+                  }}
+                >
+                  Cerrar sesión
+                </button>
+              </li>
             ) : (
               <li>
                 <NavLink
-                  to='/sign-up'
+                  to='/admin/sign-in'
                   className={({ isActive }) => `text-lg ${isActive ? 'underline underline-offset-4 decoration-[var(--color-quaternary)]' : ''} hover:underline hover:underline-offset-4 hover:decoration-[var(--color-quaternary)]`}
                 >
                   Iniciar sesión

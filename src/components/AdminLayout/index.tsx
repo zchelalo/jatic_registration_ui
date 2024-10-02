@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
+import { useAuth } from '@/contexts/auth/useAuth'
 
 import { Outlet } from 'react-router-dom'
 import { Header } from '@/components/AdminLayout/components/Header'
+import { Menu } from '@/components/AdminLayout/components/Menu'
 import { Toaster } from 'sonner'
 
 function AdminLayout() {
+  const auth = useAuth()
 
   const [headerHeight, setHeaderHeight] = useState(0)
   const headerRef = useRef<HTMLHeadElement>(null)
@@ -25,6 +28,8 @@ function AdminLayout() {
       >
         <Outlet />
       </main>
+
+      {auth.user ? <Menu /> : undefined}
 
       <Toaster
         closeButton={true}
