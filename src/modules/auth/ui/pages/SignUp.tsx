@@ -42,7 +42,11 @@ function SignUp() {
         </Tabs>
       </div>
       <div className='back md:w-6/12 lg:w-7/12 xl:w-8/12 hidden md:flex items-center justify-center h-full p-4'>
-        <img src='https://jatic.mx/img/logo_jatic_2024_grande.png' alt='logo_jatic_2024_grande' className='max-h-full' />
+        <img
+          src='https://jatic.mx/img/logo_jatic_2024_grande.png'
+          alt='logo_jatic_2024_grande'
+          className='max-h-full filter drop-shadow-xl'
+        />
       </div>
     </div>
   )
