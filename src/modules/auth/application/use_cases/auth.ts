@@ -1,10 +1,11 @@
-import { AuthRepository } from '@/modules/auth/domain/repository'
 import { StudentEntity } from '@/modules/student/domain/entity'
+import { UserEntity } from '@/modules/user/domain/entity'
+import { TeacherEntity } from '@/modules/teacher/domain/entity'
+import { AuthRepository } from '@/modules/auth/domain/repository'
+
 import { Response } from '@/types/response'
 
 import { signUpStudentSchema, signInStudentSchema, signInSchema } from '@/modules/auth/application/schemas/auth'
-import { TeacherEntity } from '@/modules/teacher/domain/entity'
-
 
 export class AuthUseCase {
   private readonly authRepository: AuthRepository
@@ -29,6 +30,12 @@ export class AuthUseCase {
     signInSchema.parse({ email, password })
 
     return this.authRepository.signInTeacher(email, password)
+  }
+
+  async signInAdmin(email: string, password: string): Promise<Response<UserEntity>> {
+    signInSchema.parse({ email, password })
+
+    return this.authRepository.signInAdmin(email, password)
   }
 
   async signOut(): Promise<void> {

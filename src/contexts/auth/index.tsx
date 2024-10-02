@@ -12,8 +12,8 @@ type AuthContextType = {
   user?: UserEntity
   setUser: (user: UserEntity) => void
   verifiedUser: boolean
-  signIn: (user: UserEntity) => void
-  logout: () => void
+  signIn: (user: UserEntity) => Promise<void>
+  logout: () => Promise<void>
   alreadySuscribedToClasses?: boolean
 }
 
@@ -21,8 +21,8 @@ const defaultAuthContext: AuthContextType = {
   user: undefined,
   setUser: () => {},
   verifiedUser: false,
-  signIn: () => {},
-  logout: () => {},
+  signIn: async () => {},
+  logout: async () => {},
   alreadySuscribedToClasses: undefined
 }
 

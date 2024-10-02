@@ -1,10 +1,12 @@
 import { AuthRepository } from '@/modules/auth/domain/repository'
 import { StudentEntity } from '@/modules/student/domain/entity'
+import { TeacherEntity } from '@/modules/teacher/domain/entity'
+import { UserEntity } from '@/modules/user/domain/entity'
+
+import { UserType } from '@/constants/user_types'
+import { Response } from '@/types/response'
 
 import { axiosClient } from '@/api/client'
-import { Response } from '@/types/response'
-import { UserType } from '@/constants/user_types'
-import { TeacherEntity } from '@/modules/teacher/domain/entity'
 
 type SignUpInStudentResponse = {
   code: number
@@ -50,6 +52,20 @@ type SignInTeacherResponse = {
       password: string
       user_type: string
     }
+  }
+}
+
+type SignInAdminResponse = {
+  code: number
+  message: string
+  data: {
+    id: string
+    name: string
+    last_name_1: string
+    last_name_2: string
+    email: string
+    password: string
+    user_type: string
   }
 }
 
@@ -157,6 +173,30 @@ export class AxiosRepository implements AuthRepository {
         }
       }
     }
+    return data
+  }
+
+  async signInAdmin(email: string, password: string): Promise<Response<UserEntity>> {
+    const response = await axiosClient.post('/auth/admin/sign-in', {
+      email: email,
+      password: password
+    })
+    const body: SignInAdminResponse = response.data
+
+    const data: Response<UserEntity> = {
+      code: body.code,
+      message: body.message,
+      data: {
+        id: body.data.id,
+        name: body.data.name,
+        lastName1: body.data.last_name_1,
+        lastName2: body.data.last_name_2,
+        email: body.data.email,
+        password: body.data.password,
+        userType: UserType.ADMIN
+      }
+    }
+
     return data
   }
 
