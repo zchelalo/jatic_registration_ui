@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Fragment, useState, useEffect } from 'react'
+import { LocalStorageKey } from '@/constants/localstorage'
 
 const classRepository = new AxiosRepository()
 const classUseCase = new ClassUseCase(classRepository)
@@ -47,6 +48,8 @@ function Confirm({
 
     try {
       await classUseCase.suscribeClass(classIds)
+      localStorage.setItem(LocalStorageKey.ALREADY_SUSCRIBED_TO_CLASSES, JSON.stringify(true))
+      window.location.reload()
       toast.success('Suscripción a los talleres exitosa')
     } catch (error) {
       console.log(error)

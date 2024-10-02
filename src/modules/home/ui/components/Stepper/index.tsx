@@ -38,6 +38,18 @@ const Stepper = ({
   classes,
   dates
 }: StepperProps) => {
+  dates.sort((a, b) => {
+    if (moment(a.day).isBefore(moment(b.day))) {
+      return -1
+    }
+
+    if (moment(a.day).isAfter(moment(b.day))) {
+      return 1
+    }
+
+    return 0
+  })
+
   const steps = [...dates, 'Confirmar']
   const [currentStep, setCurrentStep] = useState(1)
   const [selectedClasses, setSelectedClasses] = useState<SelectedClassType[]>([])
@@ -172,7 +184,10 @@ const Stepper = ({
                         Fechas y horarios
                       </h4>
                       {classObtained.dates.map(date => (
-                        <li className='text-sm'>
+                        <li
+                          key={date.id}
+                          className='text-sm'
+                        >
                           {moment(date.day).utc(false).format('DD-MM-YYYY')} | {moment(date.startTime).utc(true).format('HH:MM')} - {moment(date.endTime).utc(true).format('HH:MM')}
                         </li>
                       ))}

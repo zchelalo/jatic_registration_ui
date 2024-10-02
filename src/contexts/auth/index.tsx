@@ -87,7 +87,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     localStorage.removeItem(LocalStorageKey.USER)
     setUser(undefined)
     setVerifiedUser(false)
-    navigate('/')
+    navigate('/sign-up')
   }
 
   const auth = {
