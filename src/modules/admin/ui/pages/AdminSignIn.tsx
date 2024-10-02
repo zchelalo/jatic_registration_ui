@@ -53,7 +53,7 @@ function AdminSignIn() {
     try {
       const response = await authUseCase.signInAdmin(data.email, data.password)
       await auth.signIn(response.data)
-      navigate('/')
+      navigate('/admin/')
     } catch (error) {
       console.error(error)
       toast.error('An error occurred while trying to sign in')

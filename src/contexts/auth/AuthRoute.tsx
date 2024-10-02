@@ -1,3 +1,5 @@
+import { UserType } from '@/constants/user_types'
+
 import { useAuth } from '@/contexts/auth/useAuth'
 
 import { Navigate } from 'react-router-dom'
@@ -15,6 +17,10 @@ function AuthRoute({ children }: AuthRouteProps) {
 
   if (!auth.user) {
     return <Navigate to='/sign-up' />
+  }
+
+  if (auth.user.userType === UserType.ADMIN) {
+    return <Navigate to='/admin/' />
   }
 
   return children
