@@ -35,7 +35,7 @@ function Menu() {
             <li className='flex'>
               <NavLink
                 to='/admin/teachers'
-                className={({ isActive }) => `back-secondary-hover w-full flex items-center p-2 rounded ${isActive ? 'back-hover' : ''}`}
+                className={({ isActive }) => `w-full flex items-center p-2 rounded ${isActive ? 'back-hover' : 'back-secondary-hover'}`}
               >
                 <HiOutlineBookOpen className='text-xl mr-2' /> Talleristas
               </NavLink>
@@ -43,7 +43,7 @@ function Menu() {
             <li className='flex'>
               <NavLink
                 to='/admin/students'
-                className={({ isActive }) => `back-secondary-hover w-full flex items-center p-2 rounded ${isActive ? 'back-hover' : ''}`}
+                className={({ isActive }) => `w-full flex items-center p-2 rounded ${isActive ? 'back-hover' : 'back-secondary-hover'}`}
               >
                 <HiOutlineUsers className='text-xl mr-2' /> Estudiantes
               </NavLink>

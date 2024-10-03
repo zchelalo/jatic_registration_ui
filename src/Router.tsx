@@ -14,6 +14,8 @@ import { Home } from '@/modules/home/ui/pages/Home'
 import { Error404 } from '@/components/Error404'
 
 import { AdminSignIn } from '@/modules/admin/ui/pages/AdminSignIn'
+import { Admin } from '@/modules/home/ui/pages/Admin'
+import { Teacher } from '@/modules/teacher/ui/pages/Teacher'
 
 function Router() {
   return (
@@ -61,6 +63,22 @@ function Router() {
                 <AdminPublicRoute>
                   <AdminSignIn />
                 </AdminPublicRoute>
+              )}
+            />
+            <Route
+              path='/admin/'
+              element={(
+                <AdminAuthRoute>
+                  <Admin />
+                </AdminAuthRoute>
+              )}
+            />
+            <Route
+              path='/admin/teachers'
+              element={(
+                <AdminAuthRoute>
+                  <Teacher />
+                </AdminAuthRoute>
               )}
             />
           </Route>

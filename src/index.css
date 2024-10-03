@@ -56,6 +56,10 @@
   @apply back-hover font-medium px-7 py-1.5 rounded !important;
 }
 
+.btn-icon {
+  @apply back-secondary-hover font-medium px-2 py-2 !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
