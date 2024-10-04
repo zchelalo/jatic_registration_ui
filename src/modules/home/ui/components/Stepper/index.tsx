@@ -72,16 +72,21 @@ const Stepper = ({
         const classesToShow = []
 
         const classesOfDay = classes.filter(classObtained => 
-          classObtained.dates.some(date => date.day === step.day)
+          classObtained.dates.some(date => moment(date.day).isSame(step.day, 'day'))
         )
-        
+
         for (const classOfDay of classesOfDay) {
+          if (classOfDay.dates.some(date => moment(date.day).isBefore(step.day, 'day'))) {
+            continue
+          }
+
           const firstDate = classOfDay.dates
+            .filter(date => moment(date.day).isSame(step.day, 'day'))
             .reduce((earliest: DateEntity | null, current) => {
-              return (!earliest || current.startTime < earliest.startTime) ? current : earliest
+              return (!earliest || moment(current.startTime).isBefore(moment(earliest.startTime))) ? current : earliest
             }, null)
-        
-          if (firstDate && firstDate.day === step.day) {
+
+          if (firstDate) {
             classesToShow.push(classOfDay)
           }
         }
@@ -99,13 +104,19 @@ const Stepper = ({
     }
   }
 
-  const handleNext = (selectedClass: SelectedClassType) => {
+  const handleNext = (selectedClass?: SelectedClassType) => {
     if (currentStep === steps.length) {
       setComplete(true)
       return
     }
 
-    setSelectedClasses(prev => [...prev, selectedClass])
+    if (selectedClass) {
+      setSelectedClasses(prev => [...prev, selectedClass])
+      setCurrentStep(prev => prev + 1)
+      setNext(true)
+      return
+    }
+
     setCurrentStep(prev => prev + 1)
     setNext(true)
   }

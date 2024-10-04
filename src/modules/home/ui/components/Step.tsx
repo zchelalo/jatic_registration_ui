@@ -33,7 +33,7 @@ type StepProps = {
   classesToShow: ClassEntity[]
   selectedClasses: SelectedClassType[]
   next: boolean
-  onSubmit: (selectedClass: SelectedClassType) => void
+  onSubmit: (selectedClass?: SelectedClassType) => void
 }
 
 function Step({
@@ -83,6 +83,11 @@ function Step({
 
   const onSubmit: SubmitHandler<AddClassSchemaType> = async (data) => {
     try {
+      if (data.classID === 'noClasses') {
+        handleNext()
+        return
+      }
+
       const classSelected = classesToShow.find(classToShow => classToShow.id === data.classID)
       if (!classSelected) {
         throw new Error('Class not found')
@@ -121,9 +126,13 @@ function Step({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {classesToShow?.map(classToShow => (
-                      <SelectItem key={classToShow.id} value={classToShow.id}>{classToShow.name}</SelectItem>
-                    ))}
+                    {classesToShow.length > 0 ? (
+                      classesToShow.map(classToShow => (
+                        <SelectItem key={classToShow.id} value={classToShow.id}>{classToShow.name}</SelectItem>
+                      ))
+                    ) : (
+                      <SelectItem value='noClasses'>No hay talleres disponibles</SelectItem>
+                    )}
                   </SelectContent>
                 </Select>
                 <FormMessage />
