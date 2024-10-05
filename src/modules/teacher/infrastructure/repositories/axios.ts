@@ -35,6 +35,25 @@ type UpdateTeacherResponse = {
   meta: null | undefined
 }
 
+type CreateTeacherResponse = {
+  code: number
+  message: string
+  data: {
+    id: string
+    profile: string
+    user: {
+      id: string
+      name: string
+      last_name_1: string
+      last_name_2: string
+      email: string
+      password: string
+      user_type: string
+    }
+  }
+  meta: null | undefined
+}
+
 export class AxiosRepository implements TeacherRepository {
   async listTeachers(page: number, limit: number): Promise<Response<TeacherEntity[]>> {
     const response = await axiosClient.get('/teachers', {
@@ -70,6 +89,38 @@ export class AxiosRepository implements TeacherRepository {
         perPage: body.meta.per_page,
         totalCount: body.meta.total_count,
         pageCount: body.meta.page_count
+      }
+    }
+
+    return data
+  }
+
+  async createTeacher(profile: string, name: string, lastName1: string, email: string, password: string, lastName2?: string): Promise<Response<TeacherEntity>> {
+    const response = await axiosClient.post('/teachers', {
+      profile,
+      name,
+      last_name_1: lastName1,
+      last_name_2: lastName2,
+      email,
+      password
+    })
+    const body: CreateTeacherResponse = response.data
+
+    const data: Response<TeacherEntity> = {
+      code: body.code,
+      message: body.message,
+      data: {
+        id: body.data.id,
+        profile: body.data.profile,
+        user: {
+          id: body.data.user.id,
+          name: body.data.user.name,
+          lastName1: body.data.user.last_name_1,
+          lastName2: body.data.user.last_name_2,
+          email: body.data.user.email,
+          password: body.data.user.password,
+          userType: UserType.TEACHER
+        }
       }
     }
 

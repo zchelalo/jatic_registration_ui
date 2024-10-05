@@ -12,6 +12,7 @@ import { useTeacherColumns } from '@/modules/teacher/ui/hooks/useTeacherColumns'
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/DataTable'
 import { EditModal } from '@/modules/teacher/ui/components/EditModal'
+import { CreateModal } from '@/modules/teacher/ui/components/CreateModal'
 
 import { HiOutlinePlus } from 'react-icons/hi2'
 
@@ -20,6 +21,7 @@ const teacherUseCase = new TeacherUseCase(teacherRepository)
 
 function Teacher() {
   const [openEditModal, setOpenEditModal] = useState(false)
+  const [openCreateModal, setOpenCreateModal] = useState(false)
   const [selectedTeacher, setSelectedTeacher] = useState<TeacherEntity | null>()
 
   const [teachers, setTeachers] = useState<TeacherEntity[]>()
@@ -58,10 +60,20 @@ function Teacher() {
         />
       ): undefined}
 
+      {teachers ? (
+        <CreateModal
+          openCreateModal={openCreateModal}
+          setOpenCreateModal={setOpenCreateModal}
+          teachers={teachers}
+          setTeachers={setTeachers}
+        />
+      ) : undefined}
+
       <h1 className='flex items-center text-2xl font-bold mb-3'>
         Talleristas
         <Button
           className='btn-icon ml-3 rounded-full p-2'
+          onClick={() => setOpenCreateModal(true)}
         >
           <HiOutlinePlus className='text-2xl' />
         </Button>
