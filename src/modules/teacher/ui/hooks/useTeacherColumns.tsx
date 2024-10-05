@@ -21,7 +21,15 @@ import {
   HiOutlineTrash
 } from 'react-icons/hi2'
 
-function useTeacherColumns() {
+type UseTeacherColumnsProps = {
+  setOpenEditModal: (value: boolean) => void
+  setSelectedTeacher: (teacher: TeacherEntity) => void
+}
+
+function useTeacherColumns({
+  setOpenEditModal,
+  setSelectedTeacher
+}: UseTeacherColumnsProps) {
   const teacherColumns: ColumnDef<TeacherEntity>[] = [
     {
       id: 'select',
@@ -99,7 +107,13 @@ function useTeacherColumns() {
 
               <DropdownMenuSeparator />
 
-              <DropdownMenuItem className='flex items-center cursor-pointer'>
+              <DropdownMenuItem
+                className='flex items-center cursor-pointer'
+                onClick={() => {
+                  setOpenEditModal(true)
+                  setSelectedTeacher(teacher)
+                }}
+              >
                 <HiOutlinePencilSquare className='text-xl mr-1' /> Editar
               </DropdownMenuItem>
               <DropdownMenuItem className='flex items-center cursor-pointer'>

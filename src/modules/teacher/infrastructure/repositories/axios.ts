@@ -4,7 +4,7 @@ import { UserType } from '@/constants/user_types'
 import { TeacherEntity } from '../../domain/entity'
 import { TeacherRepository } from '../../domain/repository'
 
-type ListClassesResponse = {
+type ListTeachersResponse = {
   code: number
   message: string
   data: {
@@ -28,6 +28,13 @@ type ListClassesResponse = {
   }
 }
 
+type UpdateTeacherResponse = {
+  code: number
+  message: string
+  data: string
+  meta: null | undefined
+}
+
 export class AxiosRepository implements TeacherRepository {
   async listTeachers(page: number, limit: number): Promise<Response<TeacherEntity[]>> {
     const response = await axiosClient.get('/teachers', {
@@ -36,7 +43,7 @@ export class AxiosRepository implements TeacherRepository {
         limit
       }
     })
-    const body: ListClassesResponse = response.data
+    const body: ListTeachersResponse = response.data
 
     const data: Response<TeacherEntity[]> = {
       code: body.code,
@@ -64,6 +71,22 @@ export class AxiosRepository implements TeacherRepository {
         totalCount: body.meta.total_count,
         pageCount: body.meta.page_count
       }
+    }
+
+    return data
+  }
+
+  async updateTeacher(teacherID: string, profile: string, password?: string): Promise<Response<string>> {
+    const response = await axiosClient.patch(`/teachers/${teacherID}`, {
+      profile,
+      password
+    })
+    const body: UpdateTeacherResponse = response.data
+
+    const data: Response<string> = {
+      code: body.code,
+      message: body.message,
+      data: body.data
     }
 
     return data

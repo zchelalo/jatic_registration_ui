@@ -1,7 +1,7 @@
 import { TeacherRepository } from '@/modules/teacher/domain/repository'
 import { Response } from '@/types/response'
 import { TeacherEntity } from '@/modules/teacher/domain/entity'
-import { listTeachersSchema } from '@/modules/teacher/application/schemas/teacher'
+import { listTeachersSchema, updateTeacherSchema } from '@/modules/teacher/application/schemas/teacher'
 
 export class TeacherUseCase {
   private readonly teacherRepository: TeacherRepository
@@ -14,5 +14,11 @@ export class TeacherUseCase {
     listTeachersSchema.parse({ page, limit })
 
     return this.teacherRepository.listTeachers(page, limit)
+  }
+
+  async updateTeacher(teacherID: string, profile: string, password?: string): Promise<Response<string>> {
+    updateTeacherSchema.parse({ teacherID, profile, password })
+
+    return this.teacherRepository.updateTeacher(teacherID, profile, password)
   }
 }

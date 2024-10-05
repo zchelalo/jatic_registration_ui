@@ -11,6 +11,7 @@ import { useTeacherColumns } from '@/modules/teacher/ui/hooks/useTeacherColumns'
 
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/DataTable'
+import { EditModal } from '@/modules/teacher/ui/components/EditModal'
 
 import { HiOutlinePlus } from 'react-icons/hi2'
 
@@ -18,6 +19,9 @@ const teacherRepository = new AxiosRepository()
 const teacherUseCase = new TeacherUseCase(teacherRepository)
 
 function Teacher() {
+  const [openEditModal, setOpenEditModal] = useState(false)
+  const [selectedTeacher, setSelectedTeacher] = useState<TeacherEntity | null>()
+
   const [teachers, setTeachers] = useState<TeacherEntity[]>()
   const [meta, setMeta] = useState<Meta>()
 
@@ -38,14 +42,26 @@ function Teacher() {
     }
   }
 
-  const { teacherColumns } = useTeacherColumns()
+  const { teacherColumns } = useTeacherColumns({
+    setOpenEditModal,
+    setSelectedTeacher
+  })
 
   return (
     <section className='w-full h-full p-6 sm:p-10'>
+      {selectedTeacher ? (
+        <EditModal
+          openEditModal={openEditModal}
+          setOpenEditModal={setOpenEditModal}
+          selectedTeacher={selectedTeacher}
+          setSelectedTeacher={setSelectedTeacher}
+        />
+      ): undefined}
+
       <h1 className='flex items-center text-2xl font-bold mb-3'>
         Talleristas
         <Button
-          className='btn-icon ml-3 rounded-full'
+          className='btn-icon ml-3 rounded-full p-2'
         >
           <HiOutlinePlus className='text-2xl' />
         </Button>

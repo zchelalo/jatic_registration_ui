@@ -48,16 +48,40 @@
   @apply text-[var(--color-primary)] !important;
 }
 
+.back-tertiary {
+  @apply bg-[var(--color-tertiary)] text-secondary !important;
+}
+
+.back-tertiary-hover {
+  @apply bg-[var(--color-tertiary)] text-secondary hover:bg-[var(--color-tertiary-hover)] !important;
+}
+
+.back-quaternary {
+  @apply bg-[var(--color-quaternary)] text-secondary !important;
+}
+
+.back-quaternary-hover {
+  @apply bg-[var(--color-quaternary)] text-secondary hover:bg-[var(--color-quaternary-hover)] !important;
+} 
+
 .btn {
-  @apply back-secondary-hover font-medium px-7 py-1.5 rounded !important;
+  @apply back-secondary-hover font-medium rounded !important;
 }
 
 .btn-secondary {
-  @apply back-hover font-medium px-7 py-1.5 rounded !important;
+  @apply back-hover font-medium rounded !important;
+}
+
+.btn-tertiary {
+  @apply back-tertiary-hover font-medium rounded !important;
+}
+
+.btn-quaternary {
+  @apply back-quaternary-hover font-medium rounded !important;
 }
 
 .btn-icon {
-  @apply back-secondary-hover font-medium px-2 py-2 !important;
+  @apply back-secondary-hover font-medium !important;
 }
 
 @layer base {
