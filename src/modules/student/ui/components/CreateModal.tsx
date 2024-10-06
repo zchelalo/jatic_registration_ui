@@ -1,6 +1,8 @@
-import { TeacherEntity } from '@/modules/teacher/domain/entity'
-import { TeacherUseCase } from '@/modules/teacher/application/use_cases/teacher'
-import { AxiosRepository } from '@/modules/teacher/infrastructure/repositories/axios'
+import { StudentEntity } from '@/modules/student/domain/entity'
+import { UtEntity } from '@/modules/ut/domain/entity'
+import { CareerEntity } from '@/modules/career/domain/entity'
+import { StudentUseCase } from '@/modules/student/application/use_cases/student'
+import { AxiosRepository } from '@/modules/student/infrastructure/repositories/axios'
 
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -27,49 +29,66 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
-const teacherRepository = new AxiosRepository()
-const teacherUseCase = new TeacherUseCase(teacherRepository)
+const studentRepository = new AxiosRepository()
+const studentUseCase = new StudentUseCase(studentRepository)
 
 type CreateModalProps = {
   openCreateModal: boolean
   setOpenCreateModal: (open: boolean) => void
-  teachers: TeacherEntity[]
-  setTeachers: (teachers: TeacherEntity[]) => void
+  students: StudentEntity[]
+  setStudents: (students: StudentEntity[]) => void
+  uts: UtEntity[]
+  careers: CareerEntity[]
 }
 
 function CreateModal({
   openCreateModal,
   setOpenCreateModal,
-  teachers,
-  setTeachers
+  students,
+  setStudents,
+  uts,
+  careers
 }: CreateModalProps) {
-  const CreateTeacherSchema = z.object({
-    profile: z
+  const CreateStudentSchema = z.object({
+    registrationNumber: z
       .string()
-      .min(3, { message: 'El perfil debe tener al menos 3 caracteres' }),
+      .min(1, { message: 'Matricula debe ser valida' }),
+
+    confirmRegistrationNumber: z
+      .string()
+      .min(1, { message: 'La matricula no coincide' })
+      .refine((data: string): boolean => {
+        return data === form.getValues().registrationNumber
+      }, { message: 'Matricula no coincide' }),
 
     name: z
       .string()
-      .min(3, { message: 'El nombre debe tener al menos 3 caracteres' }),
+      .min(3, { message: 'Su nombre debe ser mayor a 3 caracteres' }),
 
     lastName1: z
       .string()
-      .min(3, { message: 'El primer apellido debe tener al menos 3 caracteres' }),
+      .min(3, { message: 'Su apellido debe ser mayor a 3 caracteres' }),
 
     lastName2: z
       .string()
-      .refine(val => val === '' || val.length >= 3, {
-        message: 'Password must be at least 8 characters long',
-      }),
+      .min(3, { message: 'Su apellido debe ser mayor a 3 caracteres' })
+      .optional(),
 
     email: z
       .string()
-      .email({ message: 'Correo electrónico inválido' }),
+      .email({ message: 'Correo no valido' }),
 
     password: z
       .string()
-      .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }),
+      .min(8, { message: 'Contraseña debe ser mayor a 8 caracteres' }),
 
     confirmPassword: z
       .string()
@@ -77,54 +96,67 @@ function CreateModal({
       .refine((data: string): boolean => {
         return data === form.getValues().password
       }, { message: 'Contraseña no coincide' }),
+
+    utID: z
+      .string()
+      .min(1, { message: 'Selecciona una Universidad' }),
+
+    careerID: z
+      .string()
+      .min(1, { message: 'Selecciona una carrera' }),
   })
 
-  type CreateTeacherSchemaType = z.infer<typeof CreateTeacherSchema>
+  type CreateStudentSchemaType = z.infer<typeof CreateStudentSchema>
 
-  const form = useForm<CreateTeacherSchemaType>({
-    resolver: zodResolver(CreateTeacherSchema),
+  const form = useForm<CreateStudentSchemaType>({
+    resolver: zodResolver(CreateStudentSchema),
     defaultValues: {
-      profile: '',
+      registrationNumber: '',
+      confirmRegistrationNumber: '',
       name: '',
       lastName1: '',
       lastName2: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      utID: '',
+      careerID: ''
     }
   })
 
-  const onSubmit: SubmitHandler<CreateTeacherSchemaType> = async (data) => {
+  const onSubmit: SubmitHandler<CreateStudentSchemaType> = async (data) => {
     try {
       const lastName2 = data.lastName2 === '' ? undefined : data.lastName2
 
-      const newTeacher = await teacherUseCase.createTeacher(
-        data.profile,
+      const newStudent = await studentUseCase.createStudent(
+        data.registrationNumber,
         data.name,
         data.lastName1,
         data.email,
         data.password,
+        data.utID,
+        data.careerID,
         lastName2
       )
 
-      let newTeachers 
-      if (teachers.length >= 10) {
-        newTeachers = [newTeacher.data, ...teachers.slice(0, 9)]
+      let newStudents 
+      if (students.length >= 10) {
+        newStudents = [newStudent.data, ...students.slice(0, 9)]
       } else {
-        newTeachers = [newTeacher.data, ...teachers]
+        newStudents = [newStudent.data, ...students]
       }
 
-      setTeachers(newTeachers)
+      setStudents(newStudents)
       setOpenCreateModal(false)
       form.reset()
 
-      toast.success('Tallerista creado exitosamente')
+      toast.success('Estudiante creado exitosamente')
     } catch (error) {
       setOpenCreateModal(false)
       form.reset()
 
       console.error(error)
-      toast.error('Un error ocurrió al intentar crear el tallerista')
+      toast.error('Un error ocurrió al intentar crear el estudiante')
     }
   }
 
@@ -139,26 +171,46 @@ function CreateModal({
           >
             <DialogHeader>
               <DialogTitle>
-                Crear tallerista
+                Crear estudiante
               </DialogTitle>
               <DialogDescription>
-                Una vez creado el tallerista, podrá iniciar sesión con el correo electrónico y la contraseña que se le asignen
+                Una vez creado el estudiante, podrá iniciar sesión con el correo electrónico y la contraseña que se le asignen
               </DialogDescription>
             </DialogHeader>
 
             <div className='flex flex-col my-6 space-y-4'>
               <FormField
                 control={form.control}
-                name='profile'
+                name='registrationNumber'
                 render={({ field }) => (
                   <FormItem className='w-full'>
                     <FormLabel>
-                      Perfil del tallerista
+                      Matrícula
                     </FormLabel>
                     <FormControl>
                       <Input
                         type='text'
-                        placeholder='Él es una persona muy habilidosa'
+                        placeholder='21306066'
+                        className='w-full back text'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='confirmRegistrationNumber'
+                render={({ field }) => (
+                  <FormItem className='w-full'>
+                    <FormLabel>
+                      Confirmar matrícula
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type='text'
+                        placeholder='21306066'
                         className='w-full back text'
                         {...field}
                       />
@@ -289,6 +341,50 @@ function CreateModal({
                         {...field}
                       />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='utID'
+                render={({ field }) => (
+                  <FormItem className='w-full'>
+                    <FormLabel>Elige de que UT nos visitas</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className='w-full bg text p-2 rounded'>
+                          <SelectValue placeholder={'Universidad Tecnológica'} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {uts.map(ut => (
+                          <SelectItem key={ut.id} value={ut.id}>{ut.key}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='careerID'
+                render={({ field }) => (
+                  <FormItem className='w-full'>
+                    <FormLabel>Elige tu carrera</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className='w-full bg text p-2 rounded'>
+                          <SelectValue placeholder={'Carrera Universitaria'} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {careers.map(career => (
+                          <SelectItem key={career.id} value={career.id}>{career.key}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}

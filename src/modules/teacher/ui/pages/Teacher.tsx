@@ -54,12 +54,14 @@ function Teacher() {
 
   return (
     <section className='w-full h-full p-6 sm:p-10'>
-      {selectedTeacher ? (
+      {(selectedTeacher && teachers) ? (
         <EditModal
           openEditModal={openEditModal}
           setOpenEditModal={setOpenEditModal}
           selectedTeacher={selectedTeacher}
           setSelectedTeacher={setSelectedTeacher}
+          teachers={teachers}
+          setTeachers={setTeachers}
         />
       ): undefined}
 

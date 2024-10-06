@@ -1,6 +1,6 @@
-import { TeacherEntity } from '@/modules/teacher/domain/entity'
-import { TeacherUseCase } from '@/modules/teacher/application/use_cases/teacher'
-import { AxiosRepository } from '@/modules/teacher/infrastructure/repositories/axios'
+import { StudentEntity } from '@/modules/student/domain/entity'
+import { StudentUseCase } from '@/modules/student/application/use_cases/student'
+import { AxiosRepository } from '@/modules/student/infrastructure/repositories/axios'
 
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -28,76 +28,76 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 
-const teacherRepository = new AxiosRepository()
-const teacherUseCase = new TeacherUseCase(teacherRepository)
+const studentRepository = new AxiosRepository()
+const studentUseCase = new StudentUseCase(studentRepository)
 
 type EditModalProps = {
   openEditModal: boolean
   setOpenEditModal: (open: boolean) => void
-  selectedTeacher: TeacherEntity
-  setSelectedTeacher: (teacher: TeacherEntity | null) => void
-  teachers: TeacherEntity[]
-  setTeachers: (teachers: TeacherEntity[]) => void
+  selectedStudent: StudentEntity
+  setSelectedStudent: (student: StudentEntity | null) => void
+  students: StudentEntity[]
+  setStudents: (students: StudentEntity[]) => void
 }
 
 function EditModal({
   openEditModal,
   setOpenEditModal,
-  selectedTeacher,
-  setSelectedTeacher,
-  teachers,
-  setTeachers
+  selectedStudent,
+  setSelectedStudent,
+  students,
+  setStudents
 }: EditModalProps) {
-  const EditTeacherSchema = z.object({
-    profile: z
+  const EditStudentSchema = z.object({
+    registrationNumber: z
       .string()
-      .min(3, { message: 'Profile must be at least 3 characters long' }),
+      .min(1, { message: 'La matrícula debe tener al menos un caracter' }),
 
     password: z
       .string()
       .refine(val => val === '' || val.length >= 8, {
-        message: 'Password must be at least 8 characters long',
+        message: 'La contraseña debe tener al menos 8 caracteres',
       }),
   })
 
-  type EditTeacherSchemaType = z.infer<typeof EditTeacherSchema>
+  type EditStudentSchemaType = z.infer<typeof EditStudentSchema>
 
-  const form = useForm<EditTeacherSchemaType>({
-    resolver: zodResolver(EditTeacherSchema),
+  const form = useForm<EditStudentSchemaType>({
+    resolver: zodResolver(EditStudentSchema),
     values: {
-      profile: selectedTeacher.profile,
+      registrationNumber: selectedStudent.registrationNumber,
       password: ''
     }
   })
 
-  const onSubmit: SubmitHandler<EditTeacherSchemaType> = async (data) => {
+  const onSubmit: SubmitHandler<EditStudentSchemaType> = async (data) => {
     try {
-      if (!selectedTeacher.id) {
-        throw new Error('No teacher id')
+      if (!selectedStudent.id) {
+        throw new Error('No se ha seleccionado un estudiante')
       }
       let password = undefined
       if (data.password) {
         password = data.password
       }
-      await teacherUseCase.updateTeacher(selectedTeacher.id, data.profile, password)
+      await studentUseCase.updateStudent(selectedStudent.id, data.registrationNumber, password)
 
-      const teacherIndex = teachers.findIndex(teacher => teacher.id === selectedTeacher.id)
-      teachers[teacherIndex] = {
-        ...teachers[teacherIndex],
-        profile: data.profile
+      const studentIndex = students.findIndex(student => student.id === selectedStudent.id)
+      students[studentIndex] = {
+        ...students[studentIndex],
+        registrationNumber: data.registrationNumber
       }
-      setTeachers([...teachers])
+      setStudents([...students])
 
-      setSelectedTeacher(null)
+      setSelectedStudent(null)
       setOpenEditModal(false)
 
-      toast.success('Teacher updated successfully')
+      toast.success('Estudiante actualizado exitosamente')
     } catch (error) {
-      setSelectedTeacher(null)
+      setSelectedStudent(null)
       setOpenEditModal(false)
 
       console.error(error)
-      toast.error('An error occurred while trying to update the teacher')
+      toast.error('Un error ocurrió al intentar actualizar al estudiante')
     }
   }
 
@@ -112,26 +112,26 @@ function EditModal({
           >
             <DialogHeader>
               <DialogTitle>
-                Editar tallerista
+                Editar estudiante
               </DialogTitle>
               <DialogDescription>
-                Una vez que edites al tallerista, los cambios serán permanentes
+                Una vez que edites al estudiante, los cambios serán permanentes
               </DialogDescription>
             </DialogHeader>
 
             <div className='flex flex-col my-6 space-y-4'>
               <FormField
                 control={form.control}
-                name='profile'
+                name='registrationNumber'
                 render={({ field }) => (
                   <FormItem className='w-full'>
                     <FormLabel>
-                      Perfil del tallerista
+                      Matrícula del estudiante
                     </FormLabel>
                     <FormControl>
                       <Input
                         type='text'
-                        placeholder='Él es una persona muy habilidosa'
+                        placeholder='21306066'
                         className='w-full back text'
                         {...field}
                       />
@@ -167,7 +167,7 @@ function EditModal({
               <DialogClose asChild>
                 <Button
                   onClick={() => {
-                    setSelectedTeacher(null)
+                    setSelectedStudent(null)
                     setOpenEditModal(false)
                   }}
                   className='btn mt-2 sm:mt-0'

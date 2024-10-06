@@ -10,7 +10,11 @@ import {
 import {
   HiBars4,
   HiOutlineBookOpen,
-  HiOutlineUsers
+  HiOutlineUsers,
+  HiOutlineBuildingOffice2,
+  HiOutlineAcademicCap,
+  HiOutlineCalendarDays,
+  HiOutlineCommandLine
 } from 'react-icons/hi2'
 
 function Menu() {
@@ -46,6 +50,38 @@ function Menu() {
                 className={({ isActive }) => `w-full flex items-center p-2 rounded ${isActive ? 'back-hover' : 'back-secondary-hover'}`}
               >
                 <HiOutlineUsers className='text-xl mr-2' /> Estudiantes
+              </NavLink>
+            </li>
+            <li className='flex'>
+              <NavLink
+                to='/admin/uts'
+                className={({ isActive }) => `w-full flex items-center p-2 rounded ${isActive ? 'back-hover' : 'back-secondary-hover'}`}
+              >
+                <HiOutlineBuildingOffice2 className='text-xl mr-2' /> Universidades
+              </NavLink>
+            </li>
+            <li className='flex'>
+              <NavLink
+                to='/admin/careers'
+                className={({ isActive }) => `w-full flex items-center p-2 rounded ${isActive ? 'back-hover' : 'back-secondary-hover'}`}
+              >
+                <HiOutlineAcademicCap className='text-xl mr-2' /> Carreras
+              </NavLink>
+            </li>
+            <li className='flex'>
+              <NavLink
+                to='/admin/classes'
+                className={({ isActive }) => `w-full flex items-center p-2 rounded ${isActive ? 'back-hover' : 'back-secondary-hover'}`}
+              >
+                <HiOutlineCommandLine className='text-xl mr-2' /> Talleres
+              </NavLink>
+            </li>
+            <li className='flex'>
+              <NavLink
+                to='/admin/dates'
+                className={({ isActive }) => `w-full flex items-center p-2 rounded ${isActive ? 'back-hover' : 'back-secondary-hover'}`}
+              >
+                <HiOutlineCalendarDays className='text-xl mr-2' /> Fechas
               </NavLink>
             </li>
           </ul>

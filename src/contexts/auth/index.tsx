@@ -12,7 +12,7 @@ type AuthContextType = {
   user?: UserEntity
   setUser: (user: UserEntity) => void
   verifiedUser: boolean
-  signIn: (user: UserEntity) => Promise<void>
+  signIn: (user: UserEntity, alreadySuscribedToClasses?: boolean) => Promise<void>
   logout: () => Promise<void>
   alreadySuscribedToClasses?: boolean
 }
