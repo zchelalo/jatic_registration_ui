@@ -54,6 +54,13 @@ type CreateTeacherResponse = {
   meta: null | undefined
 }
 
+type DeleteTeacherResponse = {
+  code: number
+  message: string
+  data: string
+  meta: null | undefined
+}
+
 export class AxiosRepository implements TeacherRepository {
   async listTeachers(page: number, limit: number): Promise<Response<TeacherEntity[]>> {
     const response = await axiosClient.get('/teachers', {
@@ -133,6 +140,19 @@ export class AxiosRepository implements TeacherRepository {
       password
     })
     const body: UpdateTeacherResponse = response.data
+
+    const data: Response<string> = {
+      code: body.code,
+      message: body.message,
+      data: body.data
+    }
+
+    return data
+  }
+
+  async deleteTeacher(teacherID: string): Promise<Response<string>> {
+    const response = await axiosClient.delete(`/teachers/${teacherID}`)
+    const body: DeleteTeacherResponse = response.data
 
     const data: Response<string> = {
       code: body.code,

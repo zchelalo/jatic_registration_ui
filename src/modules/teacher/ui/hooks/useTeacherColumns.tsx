@@ -23,11 +23,13 @@ import {
 
 type UseTeacherColumnsProps = {
   setOpenEditModal: (value: boolean) => void
+  setOpenDeleteModal: (value: boolean) => void
   setSelectedTeacher: (teacher: TeacherEntity) => void
 }
 
 function useTeacherColumns({
   setOpenEditModal,
+  setOpenDeleteModal,
   setSelectedTeacher
 }: UseTeacherColumnsProps) {
   const teacherColumns: ColumnDef<TeacherEntity>[] = [
@@ -110,13 +112,19 @@ function useTeacherColumns({
               <DropdownMenuItem
                 className='flex items-center cursor-pointer'
                 onClick={() => {
-                  setOpenEditModal(true)
                   setSelectedTeacher(teacher)
+                  setOpenEditModal(true)
                 }}
               >
                 <HiOutlinePencilSquare className='text-xl mr-1' /> Editar
               </DropdownMenuItem>
-              <DropdownMenuItem className='flex items-center cursor-pointer'>
+              <DropdownMenuItem
+                className='flex items-center cursor-pointer'
+                onClick={() => {
+                  setSelectedTeacher(teacher)
+                  setOpenDeleteModal(true)
+                }}
+              >
                 <HiOutlineTrash className='text-xl mr-1' /> Eliminar
               </DropdownMenuItem>
             </DropdownMenuContent>
