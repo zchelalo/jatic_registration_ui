@@ -37,7 +37,7 @@ type ListClassesResponse = {
 
 export class AxiosRepository implements ClassRepository {
   async listClasses(page: number, limit: number): Promise<Response<ClassEntity[]>> {
-    const response = await axiosClient.get('/classes', {
+    const response = await axiosClient.get('/classes-available', {
       params: {
         page,
         limit

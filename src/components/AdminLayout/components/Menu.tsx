@@ -13,7 +13,6 @@ import {
   HiOutlineUsers,
   HiOutlineBuildingOffice2,
   HiOutlineAcademicCap,
-  HiOutlineCalendarDays,
   HiOutlineCommandLine
 } from 'react-icons/hi2'
 
@@ -74,14 +73,6 @@ function Menu() {
                 className={({ isActive }) => `w-full flex items-center p-2 rounded ${isActive ? 'back-hover' : 'back-secondary-hover'}`}
               >
                 <HiOutlineCommandLine className='text-xl mr-2' /> Talleres
-              </NavLink>
-            </li>
-            <li className='flex'>
-              <NavLink
-                to='/admin/dates'
-                className={({ isActive }) => `w-full flex items-center p-2 rounded ${isActive ? 'back-hover' : 'back-secondary-hover'}`}
-              >
-                <HiOutlineCalendarDays className='text-xl mr-2' /> Fechas
               </NavLink>
             </li>
           </ul>

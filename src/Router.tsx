@@ -17,6 +17,7 @@ import { AdminSignIn } from '@/modules/admin/ui/pages/AdminSignIn'
 import { Admin } from '@/modules/home/ui/pages/Admin'
 import { Teacher } from '@/modules/teacher/ui/pages/Teacher'
 import { Student } from '@/modules/student/ui/pages/Student'
+import { Ut } from '@/modules/ut/ui/pages/Ut'
 
 function Router() {
   return (
@@ -87,6 +88,14 @@ function Router() {
               element={(
                 <AdminAuthRoute>
                   <Student />
+                </AdminAuthRoute>
+              )}
+            />
+            <Route
+              path='/admin/uts'
+              element={(
+                <AdminAuthRoute>
+                  <Ut />
                 </AdminAuthRoute>
               )}
             />
