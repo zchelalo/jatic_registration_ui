@@ -109,7 +109,7 @@ function DeleteModal({
                 Eliminar taller
               </DialogTitle>
               <DialogDescription>
-                Una vez eliminado, la taller tiene que ser reactivada manualmente
+                Una vez eliminado, el taller tiene que ser reactivada manualmente
               </DialogDescription>
             </DialogHeader>
 
@@ -120,7 +120,7 @@ function DeleteModal({
                 render={({ field }) => (
                   <FormItem className='w-full flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
                     <FormLabel>
-                      ¿Estas seguro de que deseas eliminar la taller?
+                      ¿Estas seguro de que deseas eliminar el taller?
                     </FormLabel>
                     <FormControl>
                       <Checkbox

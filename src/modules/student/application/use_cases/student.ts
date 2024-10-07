@@ -22,10 +22,10 @@ export class StudentUseCase {
     return this.studentRepository.createStudent(registrationNumber, name, lastName1, email, password, utID, careerID, lastName2)
   }
 
-  async updateStudent(studentID: string, registrationNumber: string, password?: string): Promise<Response<string>> {
-    updateStudentSchema.parse({ studentID, registrationNumber, password })
+  async updateStudent(studentID: string, registrationNumber: string, paid: boolean, password?: string): Promise<Response<string>> {
+    updateStudentSchema.parse({ studentID, registrationNumber, paid, password })
 
-    return this.studentRepository.updateStudent(studentID, registrationNumber, password)
+    return this.studentRepository.updateStudent(studentID, registrationNumber, paid, password)
   }
 
   async deleteStudent(studentID: string): Promise<Response<string>> {

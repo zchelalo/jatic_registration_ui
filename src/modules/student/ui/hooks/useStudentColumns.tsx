@@ -88,6 +88,28 @@ function useStudentColumns({
       header: 'Carrera'
     },
     {
+      accessorKey: 'alreadySuscribedToClasses',
+      header: 'Inscrito a talleres',
+      cell: ({ getValue }) => {
+        return getValue() ? (
+          <span className='text-green-500'>Sí</span>
+        ) : (
+          <span className='text-red-500'>No</span>
+        )
+      }
+    },
+    {
+      accessorKey: 'classesPaid',
+      header: 'Pagó talleres',
+      cell: ({ getValue }) => {
+        return getValue() ? (
+          <span className='text-green-500'>Sí</span>
+        ) : (
+          <span className='text-red-500'>No</span>
+        )
+      }
+    },
+    {
       id: 'actions',
       cell: ({ row }) => {
         const student = row.original

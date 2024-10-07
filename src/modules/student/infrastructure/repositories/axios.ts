@@ -10,19 +10,23 @@ type ListStudentsResponse = {
   code: number
   message: string
   data: {
-    id: string
-    registration_number: string
-    ut: UtEntity
-    career: CareerEntity
-    user: {
+    student: {
       id: string
-      name: string
-      last_name_1: string
-      last_name_2: string
-      email: string
-      password: string
-      user_type: string
+      registration_number: string
+      ut: UtEntity
+      career: CareerEntity
+      user: {
+        id: string
+        name: string
+        last_name_1: string
+        last_name_2: string
+        email: string
+        password: string
+        user_type: string
+      }
     }
+    already_suscribed_to_classes: boolean
+    classes_paid: boolean
   }[]
   meta: {
     page: number
@@ -82,18 +86,19 @@ export class AxiosRepository implements StudentRepository {
       message: body.message,
       data: body.data.map(studentObtained => {
         const newStudent: StudentEntity = {
-          id: studentObtained.id,
-          registrationNumber: studentObtained.registration_number,
-          ut: studentObtained.ut,
-          career: studentObtained.career,
-          alreadySuscribedToClasses: false,
+          id: studentObtained.student.id,
+          registrationNumber: studentObtained.student.registration_number,
+          ut: studentObtained.student.ut,
+          career: studentObtained.student.career,
+          alreadySuscribedToClasses: studentObtained.already_suscribed_to_classes,
+          classesPaid: studentObtained.classes_paid,
           user: {
-            id: studentObtained.user.id,
-            name: studentObtained.user.name,
-            lastName1: studentObtained.user.last_name_1,
-            lastName2: studentObtained.user.last_name_2,
-            email: studentObtained.user.email,
-            password: studentObtained.user.password,
+            id: studentObtained.student.user.id,
+            name: studentObtained.student.user.name,
+            lastName1: studentObtained.student.user.last_name_1,
+            lastName2: studentObtained.student.user.last_name_2,
+            email: studentObtained.student.user.email,
+            password: studentObtained.student.user.password,
             userType: UserType.STUDENT
           }
         }
@@ -148,10 +153,11 @@ export class AxiosRepository implements StudentRepository {
     return data
   }
 
-  async updateStudent(studentID: string, registrationNumber: string, password?: string): Promise<Response<string>> {
+  async updateStudent(studentID: string, registrationNumber: string, paid: boolean, password?: string): Promise<Response<string>> {
     const response = await axiosClient.patch(`/students/${studentID}`, {
       registration_number: registrationNumber,
-      password
+      password,
+      paid
     })
     const body: UpdateStudentResponse = response.data
 

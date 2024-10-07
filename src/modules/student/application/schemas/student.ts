@@ -8,6 +8,7 @@ export const listStudentsSchema = z.object({
 export const updateStudentSchema = z.object({
   studentID: z.string().uuid(),
   registrationNumber: z.string().min(1),
+  paid: z.boolean(),
   password: z.string().min(8, { message: 'Password must be at least 8 characters long' }).optional()
 })
 

@@ -9,4 +9,5 @@ export interface StudentEntity {
   ut: UtEntity
   career: CareerEntity
   alreadySuscribedToClasses: boolean
+  classesPaid?: boolean
 }

@@ -27,6 +27,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const studentRepository = new AxiosRepository()
 const studentUseCase = new StudentUseCase(studentRepository)
@@ -58,6 +59,8 @@ function EditModal({
       .refine(val => val === '' || val.length >= 8, {
         message: 'La contraseña debe tener al menos 8 caracteres',
       }),
+
+    paid: z.boolean()
   })
 
   type EditStudentSchemaType = z.infer<typeof EditStudentSchema>
@@ -66,7 +69,8 @@ function EditModal({
     resolver: zodResolver(EditStudentSchema),
     values: {
       registrationNumber: selectedStudent.registrationNumber,
-      password: ''
+      password: '',
+      paid: selectedStudent.classesPaid || false
     }
   })
 
@@ -79,12 +83,13 @@ function EditModal({
       if (data.password) {
         password = data.password
       }
-      await studentUseCase.updateStudent(selectedStudent.id, data.registrationNumber, password)
+      await studentUseCase.updateStudent(selectedStudent.id, data.registrationNumber, data.paid, password)
 
       const studentIndex = students.findIndex(student => student.id === selectedStudent.id)
       students[studentIndex] = {
         ...students[studentIndex],
-        registrationNumber: data.registrationNumber
+        registrationNumber: data.registrationNumber,
+        classesPaid: data.paid
       }
       setStudents([...students])
 
@@ -155,6 +160,24 @@ function EditModal({
                         autoComplete='new-password'
                         className='w-full back text'
                         {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='paid'
+                render={({ field }) => (
+                  <FormItem className='w-full flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
+                    <FormLabel>
+                      ¿El estudiante ha pagado?
+                    </FormLabel>
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
                       />
                     </FormControl>
                     <FormMessage />
