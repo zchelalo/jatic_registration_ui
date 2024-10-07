@@ -69,7 +69,7 @@ function Enrollments({
               <ul>
                 {enrollment.class.dates.map(date => (
                   <li key={date.id}>
-                    {moment(date.day).format('DD/MM/YYYY')} de {moment(date.startTime).format('HH:mm')} a {moment(date.endTime).format('HH:mm')}
+                    {moment(date.day).utc(false).format('DD/MM/YYYY')} de {moment(date.startTime).utc(false).format('HH:mm')} a {moment(date.endTime).utc(false).format('HH:mm')}
                   </li>
                 ))}
               </ul>

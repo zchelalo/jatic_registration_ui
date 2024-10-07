@@ -84,6 +84,10 @@
   @apply back-secondary-hover font-medium !important;
 }
 
+.btn-icon-secondary {
+  @apply back-hover font-medium !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

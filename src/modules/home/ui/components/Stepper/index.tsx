@@ -199,7 +199,7 @@ const Stepper = ({
                           key={date.id}
                           className='text-sm'
                         >
-                          {moment(date.day).utc(false).format('DD-MM-YYYY')} | {moment(date.startTime).utc(true).format('HH:MM')} - {moment(date.endTime).utc(true).format('HH:MM')}
+                          {moment(date.day).utc(false).format('DD-MM-YYYY')} | {moment(date.startTime).utc(false).format('HH:MM')} - {moment(date.endTime).utc(false).format('HH:MM')}
                         </li>
                       ))}
                     </ul>
