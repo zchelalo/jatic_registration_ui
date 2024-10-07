@@ -353,7 +353,7 @@ function CreateModal({
                     <FormLabel>Elige de que UT nos visitas</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className='w-full bg text p-2 rounded'>
+                        <SelectTrigger className='w-full back text p-2 rounded'>
                           <SelectValue placeholder={'Universidad Tecnológica'} />
                         </SelectTrigger>
                       </FormControl>
@@ -375,7 +375,7 @@ function CreateModal({
                     <FormLabel>Elige tu carrera</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className='w-full bg text p-2 rounded'>
+                        <SelectTrigger className='w-full back text p-2 rounded'>
                           <SelectValue placeholder={'Carrera Universitaria'} />
                         </SelectTrigger>
                       </FormControl>

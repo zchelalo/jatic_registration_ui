@@ -44,4 +44,27 @@ export class AxiosRepository implements DateRepository {
 
     return data
   }
+
+  async listDatesByClassId(classId: string): Promise<Response<DateEntity[]>> {
+    const response = await axiosClient.get(`/dates/${classId}`)
+    const body: ListDatesResponse = response.data
+
+    const data: Response<DateEntity[]> = {
+      code: body.code,
+      message: body.message,
+      data: body.data.map(date => {
+        const newDate: DateEntity = {
+          id: date.id,
+          day: date.day,
+          startTime: date.start_time,
+          endTime: date.end_time
+        }
+
+        return newDate
+      }),
+      meta: body.meta
+    }
+
+    return data
+  }
 }

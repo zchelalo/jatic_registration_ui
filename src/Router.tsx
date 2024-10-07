@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import { AuthProvider } from './contexts/auth'
-import { AuthRoute } from './contexts/auth/AuthRoute'
-import { AdminAuthRoute } from './contexts/auth/AdminAuthRoute'
-import { PublicRoute } from './contexts/auth/PublicRoute'
-import { AdminPublicRoute } from './contexts/auth/AdminPublicRoute'
+import { AuthProvider } from '@/contexts/auth'
+import { AuthRoute } from '@/contexts/auth/AuthRoute'
+import { AdminAuthRoute } from '@/contexts/auth/AdminAuthRoute'
+import { PublicRoute } from '@/contexts/auth/PublicRoute'
+import { AdminPublicRoute } from '@/contexts/auth/AdminPublicRoute'
 
 import { Layout } from '@/components/Layout'
 import { AdminLayout } from '@/components/AdminLayout'
@@ -19,6 +19,7 @@ import { Teacher } from '@/modules/teacher/ui/pages/Teacher'
 import { Student } from '@/modules/student/ui/pages/Student'
 import { Ut } from '@/modules/ut/ui/pages/Ut'
 import { Career } from '@/modules/career/ui/pages/Career'
+import { Class } from '@/modules/class/ui/pages/Class'
 
 function Router() {
   return (
@@ -105,6 +106,14 @@ function Router() {
               element={(
                 <AdminAuthRoute>
                   <Career />
+                </AdminAuthRoute>
+              )}
+            />
+            <Route
+              path='/admin/classes'
+              element={(
+                <AdminAuthRoute>
+                  <Class />
                 </AdminAuthRoute>
               )}
             />

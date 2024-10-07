@@ -1,5 +1,5 @@
 export interface DateEntity {
-  id: string
+  id?: string
   day: Date
   startTime: Date
   endTime: Date

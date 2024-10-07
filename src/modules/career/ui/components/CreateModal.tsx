@@ -96,7 +96,7 @@ function CreateModal({
           >
             <DialogHeader>
               <DialogTitle>
-                Crear estudiante
+                Crear carrera
               </DialogTitle>
               <DialogDescription>
                 Una vez creada la carrera, los estudiantes podrán registrarse con ella

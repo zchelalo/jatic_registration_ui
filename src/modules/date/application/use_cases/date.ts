@@ -15,4 +15,8 @@ export class DateUseCase {
 
     return this.dateRepository.listDates(page, limit)
   }
+
+  async listDatesByClassId(classId: string): Promise<Response<DateEntity[]>> {
+    return this.dateRepository.listDatesByClassId(classId)
+  }
 }
