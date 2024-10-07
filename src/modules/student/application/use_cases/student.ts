@@ -10,10 +10,10 @@ export class StudentUseCase {
     this.studentRepository = studentRepository
   }
 
-  async listStudents(page: number, limit: number): Promise<Response<StudentEntity[]>> {
-    listStudentsSchema.parse({ page, limit })
+  async listStudents(page: number, limit: number, search?: string): Promise<Response<StudentEntity[]>> {
+    listStudentsSchema.parse({ page, limit, search })
 
-    return this.studentRepository.listStudents(page, limit)
+    return this.studentRepository.listStudents(page, limit, search)
   }
 
   async createStudent(registrationNumber: string, name: string, lastName1: string, email: string, password: string, utID: string, careerID: string, lastName2?: string): Promise<Response<StudentEntity>> {

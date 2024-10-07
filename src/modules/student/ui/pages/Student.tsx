@@ -12,7 +12,7 @@ import { Meta } from '@/types/meta'
 
 import { toast } from 'sonner'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useStudentColumns } from '@/modules/student/ui/hooks/useStudentColumns'
 
 import { Button } from '@/components/ui/button'
@@ -44,6 +44,8 @@ function Student() {
   const [students, setStudents] = useState<StudentEntity[]>()
   const [meta, setMeta] = useState<Meta>()
 
+  const [searchValue, setSearchValue] = useState('')
+
   useEffect(() => {
     (async () => {
       await getStudents(1, 10)
@@ -74,14 +76,25 @@ function Student() {
     })()
   }, [])
 
-  const getStudents = async (page: number, limit: number) => {
+  const getStudents = async (page: number, limit: number, search?: string) => {
     try {
-      const studentsObtained = await studentUseCase.listStudents(page, limit)
+      const studentsObtained = await studentUseCase.listStudents(page, limit, search)
       setStudents(studentsObtained.data)
       setMeta(studentsObtained.meta)
     } catch (error) {
       console.log(error)
       toast.error('Ocurrio un error al traer a los estudiantes')
+    }
+  }
+
+  const debouncedSearch = useCallback(debounce(getStudents, 500), [])
+
+  const handleSearchValue = (value: string) => {
+    setSearchValue(value)
+    if (meta) {
+      debouncedSearch(meta.page, meta.perPage, value)
+    } else {
+      debouncedSearch(1, 10, value)
     }
   }
 
@@ -141,10 +154,23 @@ function Student() {
           data={students}
           meta={meta}
           getData={getStudents}
+          searchInput={true}
+          searchValue={searchValue}
+          handleSearchValue={handleSearchValue}
         />
       ) : undefined}
     </section>
   )
+}
+
+function debounce<T extends (...args: Parameters<T>) => ReturnType<T>>(func: T, wait: number): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout
+  return (...args: Parameters<T>): void => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      func(...args)
+    }, wait)
+  }
 }
 
 export { Student }

@@ -2,7 +2,8 @@ import { z } from 'zod'
 
 export const listStudentsSchema = z.object({
   page: z.number().min(1),
-  limit: z.number().min(1)
+  limit: z.number().min(1),
+  search: z.string().optional()
 })
 
 export const updateStudentSchema = z.object({

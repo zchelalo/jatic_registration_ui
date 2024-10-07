@@ -7,6 +7,7 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  VisibilityState
 } from '@tanstack/react-table'
 import {
   Table,
@@ -17,20 +18,34 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { Input } from '../ui/input'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   meta: Meta
   getData: (page: number, limit: number) => Promise<void>
+  searchInput?: boolean
+  searchValue?: string
+  handleSearchValue?: (value: string) => void
 }
 
 function DataTable<TData, TValue>({
   columns,
   data,
   meta,
-  getData
+  getData,
+  searchInput = false,
+  searchValue = '',
+  handleSearchValue
 }: DataTableProps<TData, TValue>) {
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [pagination, setPagination] = useState({
     pageIndex: meta.page - 1,
     pageSize: meta.perPage
@@ -44,13 +59,59 @@ function DataTable<TData, TValue>({
     manualPagination: true,
     pageCount: meta.pageCount,
     onPaginationChange: setPagination,
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
-      pagination
+      pagination,
+      columnVisibility,
     }
   })
 
   return (
     <>
+      <div className='w-full flex justify-between items-center mb-1'>
+        {searchInput ? (
+          <div className='flex'>
+            <Input
+              placeholder='Buscar...'
+              value={searchValue}
+              onChange={(event) => {
+                if (handleSearchValue) {
+                  handleSearchValue(event.target.value)
+                }
+              }}
+              className='max-w-xs back-secondary'
+            />
+          </div>
+        ) : undefined}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='outline' className='btn ml-auto'>
+              Columnas
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end' className='back-secondary'>
+            {table
+              .getAllColumns()
+              .filter(
+                (column) => column.getCanHide()
+              )
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className='capitalize'
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                )
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
       <div className='back-secondary rounded-md border'>
         <Table>
   
@@ -97,7 +158,7 @@ function DataTable<TData, TValue>({
         </Table>
       </div>
       <div className='flex items-center justify-between'>
-        <div className="flex-1 text-sm text-muted-foreground">
+        <div className='flex-1 text-sm text-muted-foreground'>
           {table.getFilteredSelectedRowModel().rows.length} de {' '}
           {table.getFilteredRowModel().rows.length} filas seleccionadas
         </div>

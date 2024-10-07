@@ -72,11 +72,12 @@ type DeleteStudentResponse = {
 }
 
 export class AxiosRepository implements StudentRepository {
-  async listStudents(page: number, limit: number): Promise<Response<StudentEntity[]>> {
+  async listStudents(page: number, limit: number, search?: string): Promise<Response<StudentEntity[]>> {
     const response = await axiosClient.get('/students', {
       params: {
         page,
-        limit
+        limit,
+        search
       }
     })
     const body: ListStudentsResponse = response.data
