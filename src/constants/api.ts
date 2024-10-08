@@ -1,3 +1,3 @@
 export enum Api {
-  HOST = 'http://localhost:8000',
+  HOST = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000',
 }
