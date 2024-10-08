@@ -1,4 +1,4 @@
-import { Api } from '@/constants/api'
+import { HOST } from '@/constants/api'
 
 import axios from 'axios'
 
@@ -6,7 +6,7 @@ import { authRequestInterceptor, authResponseInterceptor } from '@/api/intercept
 import { baseErrorHandler } from '@/api/interceptors/base'
 
 const axiosClient = axios.create({
-  baseURL: Api.HOST,
+  baseURL: HOST,
   timeout: 10000,
 })
 
