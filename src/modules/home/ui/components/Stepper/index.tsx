@@ -151,7 +151,7 @@ const Stepper = ({
     <div className='w-full flex justify-center'>
       <div className='relative w-full md:w-2/3 xl:w-1/2 py-8 px-8 md:px-0'>
         <div className='w-full flex justify-center'>
-          {steps?.map((step, i) => (
+          {steps?.map((_, i) => (
             <button
               key={i}
               onClick={() => handleStepClick(i + 1)}

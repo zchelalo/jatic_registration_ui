@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/auth/useAuth'
 
 import { NavLink } from 'react-router-dom'
 
-const Header = forwardRef<HTMLHeadElement>((props, ref) => {
+const Header = forwardRef<HTMLHeadElement>((_, ref) => {
   const auth = useAuth()
 
   return (
