@@ -85,8 +85,13 @@ function Student() {
       setStudents(studentsObtained.data)
       setMeta(studentsObtained.meta)
 
-      if (!hasChanged && studentsObtained.meta) {
-        setTotalStudents(studentsObtained.meta.totalCount)
+      if (!hasChanged) {
+        if (!studentsObtained.meta) {
+          return
+        }
+
+        const totalEnrolled = studentsObtained.meta.totalCount
+        setTotalStudents(totalEnrolled)
         setHasChanged(true)
       }
     } catch (error) {
