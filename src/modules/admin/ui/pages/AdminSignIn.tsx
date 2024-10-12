@@ -56,7 +56,7 @@ function AdminSignIn() {
       navigate('/admin/')
     } catch (error) {
       console.error(error)
-      toast.error('An error occurred while trying to sign in')
+      toast.error('Ocurrió un error al iniciar sesión')
     }
   }
 

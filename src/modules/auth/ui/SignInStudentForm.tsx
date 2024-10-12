@@ -33,14 +33,15 @@ function SignInStudentForm() {
   const SignInStudentSchema = z.object({
     registrationNumber: z
       .string()
-      .min(6, { message: 'Registration number must be at least 6 characters long' }),
+      .min(1, { message: 'La matrícula debe tener al menos 1 caracter' }),
 
     email: z
       .string()
-      .email({ message: 'Invalid email address' }),
+      .email({ message: 'Correo electrónico inválido' }),
+
     password: z
       .string()
-      .min(8, { message: 'Password must be at least 8 characters long' }),
+      .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
   })
 
   type SignInStudentSchemaType = z.infer<typeof SignInStudentSchema>
@@ -62,7 +63,7 @@ function SignInStudentForm() {
       navigate('/')
     } catch (error) {
       console.error(error)
-      toast.error('An error occurred while trying to sign in')
+      toast.error('Ocurrió un error al intentar iniciar sesión')
     }
   }
 

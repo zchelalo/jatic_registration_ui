@@ -60,7 +60,7 @@ function SignUpStudentForm() {
         setCareers(response.data)
       } catch (error) {
         console.error(error)
-        toast.error('An error occurred while trying to fetch the careers')
+        toast.error('Ocurrió un error al intentar obtener las carreras')
       }
     }
 
@@ -74,7 +74,7 @@ function SignUpStudentForm() {
         setUts(response.data)
       } catch (error) {
         console.error(error)
-        toast.error('An error occurred while trying to fetch the UTs')
+        toast.error('Ocurrió un error al intentar obtener las UTs')
       }
     }
 
@@ -103,8 +103,9 @@ function SignUpStudentForm() {
 
     lastName2: z
       .string()
-      .min(3, { message: 'Su apellido debe ser mayor a 3 caracteres' })
-      .optional(),
+      .refine((data: string): boolean => {
+        return !data || data.length > 3
+      }, { message: 'Su apellido debe ser mayor a 3 caracteres' }),
 
     email: z
       .string()
@@ -127,7 +128,7 @@ function SignUpStudentForm() {
 
     careerID: z
       .string()
-      .min(1, { message: 'Selecciona una carrera' }),
+      .min(1, { message: 'Selecciona una carrera' })
   })
 
   type SignUpSchemaType = z.infer<typeof SignUpSchema>
@@ -150,12 +151,13 @@ function SignUpStudentForm() {
 
   const onSubmit: SubmitHandler<SignUpSchemaType> = async (data) => {
     try {
-      const response = await authUseCase.signUpStudent(data.registrationNumber, data.name, data.lastName1, data.email, data.password, data.utID, data.careerID, data.lastName2)
+      const lastName2 = data.lastName2 || undefined
+      const response = await authUseCase.signUpStudent(data.registrationNumber, data.name, data.lastName1, data.email, data.password, data.utID, data.careerID, lastName2)
       await auth.signIn(response.data.user, response.data.alreadySuscribedToClasses)
       navigate('/')
     } catch (error) {
       console.error(error)
-      toast.error('An error occurred while trying to sign up')
+      toast.error('Ocurrió un error al intentar registrarse')
     }
   }
 
