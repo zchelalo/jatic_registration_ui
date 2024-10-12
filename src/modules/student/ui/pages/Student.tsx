@@ -167,10 +167,10 @@ function Student() {
           Pagados: {totalStudentsPaid}
         </span>
       </article>
-      {(students?.length && students.length > 0 && meta) ? (
+      {meta ? (
         <DataTable
           columns={studentColumns}
-          data={students}
+          data={students || []}
           meta={meta}
           getData={getStudents}
           searchInput={true}
