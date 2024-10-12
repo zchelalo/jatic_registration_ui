@@ -44,16 +44,23 @@ function Student() {
   const [students, setStudents] = useState<StudentEntity[]>()
   const [meta, setMeta] = useState<Meta>()
 
+  const [totalStudents, setTotalStudents] = useState(0)
+  const [hasChanged, setHasChanged] = useState(false)
+  const [totalStudentsEnrolled, setTotalStudentsEnrolled] = useState(0)
+  const [totalStudentsPaid, setTotalStudentsPaid] = useState(0)
+
   const [searchValue, setSearchValue] = useState('')
 
   useEffect(() => {
     (async () => {
       await getStudents(1, 10)
-    })()
-  }, [])
 
-  useEffect(() => {
-    (async () => {
+      const totalEnrolled = await studentUseCase.countStudentsEnrolled()
+      setTotalStudentsEnrolled(totalEnrolled.data)
+
+      const totalPaid = await studentUseCase.countStudentsPaid()
+      setTotalStudentsPaid(totalPaid.data)
+
       try {
         const response = await careerUseCase.listCareers(1, 100)
         setCareers(response.data)
@@ -61,11 +68,7 @@ function Student() {
         console.error(error)
         toast.error('Un error ocurrió al intentar traer las carreras')
       }
-    })()
-  }, [])
 
-  useEffect(() => {
-    (async () => {
       try {
         const response = await utUseCase.listUts(1, 100)
         setUts(response.data)
@@ -81,6 +84,11 @@ function Student() {
       const studentsObtained = await studentUseCase.listStudents(page, limit, search)
       setStudents(studentsObtained.data)
       setMeta(studentsObtained.meta)
+
+      if (!hasChanged && studentsObtained.meta) {
+        setTotalStudents(studentsObtained.meta.totalCount)
+        setHasChanged(true)
+      }
     } catch (error) {
       console.log(error)
       toast.error('Ocurrio un error al traer a los estudiantes')
@@ -148,6 +156,17 @@ function Student() {
           <HiOutlinePlus className='text-2xl' />
         </Button>
       </h1>
+      <article className='flex items-center justify-start space-x-1 mb-1'>
+        <span className='back-secondary rounded p-1 text-sm font-medium'>
+          Total: {totalStudents}
+        </span>
+        <span className='back-secondary rounded p-1 text-sm font-medium'>
+          Inscritos: {totalStudentsEnrolled}
+        </span>
+        <span className='back-secondary rounded p-1 text-sm font-medium'>
+          Pagados: {totalStudentsPaid}
+        </span>
+      </article>
       {(students?.length && students.length > 0 && meta) ? (
         <DataTable
           columns={studentColumns}

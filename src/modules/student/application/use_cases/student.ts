@@ -33,4 +33,12 @@ export class StudentUseCase {
 
     return this.studentRepository.deleteStudent(studentID)
   }
+
+  async countStudentsEnrolled(): Promise<Response<number>> {
+    return this.studentRepository.countStudentsEnrolled()
+  }
+
+  async countStudentsPaid(): Promise<Response<number>> {
+    return this.studentRepository.countStudentsPaid()
+  }
 }

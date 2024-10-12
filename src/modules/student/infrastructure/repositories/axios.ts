@@ -71,6 +71,13 @@ type DeleteStudentResponse = {
   meta: null | undefined
 }
 
+type CountStudentsEnrolledPaid = {
+  code: number
+  message: string
+  data: number
+  meta: null | undefined
+}
+
 export class AxiosRepository implements StudentRepository {
   async listStudents(page: number, limit: number, search?: string): Promise<Response<StudentEntity[]>> {
     const response = await axiosClient.get('/students', {
@@ -176,6 +183,32 @@ export class AxiosRepository implements StudentRepository {
     const body: DeleteStudentResponse = response.data
 
     const data: Response<string> = {
+      code: body.code,
+      message: body.message,
+      data: body.data
+    }
+
+    return data
+  }
+
+  async countStudentsEnrolled(): Promise<Response<number>> {
+    const response = await axiosClient.get('/students/count/enrolled')
+    const body: CountStudentsEnrolledPaid = response.data
+
+    const data: Response<number> = {
+      code: body.code,
+      message: body.message,
+      data: body.data
+    }
+
+    return data
+  }
+
+  async countStudentsPaid(): Promise<Response<number>> {
+    const response = await axiosClient.get('/students/count/paid')
+    const body: CountStudentsEnrolledPaid = response.data
+
+    const data: Response<number> = {
       code: body.code,
       message: body.message,
       data: body.data
