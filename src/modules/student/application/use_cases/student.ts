@@ -1,7 +1,7 @@
 import { StudentRepository } from '@/modules/student/domain/repository'
 import { Response } from '@/types/response'
 import { StudentEntity } from '@/modules/student/domain/entity'
-import { listStudentsSchema, updateStudentSchema, createStudentSchema, deleteStudentSchema } from '@/modules/student/application/schemas/student'
+import { listStudentsSchema, updateStudentSchema, createStudentSchema, deleteStudentSchema, getCSVStudentsEnrolledByClassIDSchema } from '@/modules/student/application/schemas/student'
 
 export class StudentUseCase {
   private readonly studentRepository: StudentRepository
@@ -14,6 +14,12 @@ export class StudentUseCase {
     listStudentsSchema.parse({ page, limit, search })
 
     return this.studentRepository.listStudents(page, limit, search)
+  }
+
+  async getCSVStudentsEnrolledByClassID(classID: string): Promise<Response<string>> {
+    getCSVStudentsEnrolledByClassIDSchema.parse({ classID })
+
+    return this.studentRepository.getCSVStudentsEnrolledByClassID(classID)
   }
 
   async createStudent(registrationNumber: string, name: string, lastName1: string, email: string, password: string, utID: string, careerID: string, lastName2?: string): Promise<Response<StudentEntity>> {

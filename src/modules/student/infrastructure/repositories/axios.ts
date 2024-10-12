@@ -71,7 +71,7 @@ type DeleteStudentResponse = {
   meta: null | undefined
 }
 
-type CountStudentsEnrolledPaid = {
+type CountStudentsEnrolledPaidResponse = {
   code: number
   message: string
   data: number
@@ -122,6 +122,21 @@ export class AxiosRepository implements StudentRepository {
     }
 
     return data
+  }
+
+  async getCSVStudentsEnrolledByClassID(classID: string): Promise<Response<string>> {
+    const response = await axiosClient.get(`/students/csv/${classID}`, {
+      responseType: 'blob'
+    })
+
+    const csvBlob = new Blob([response.data], { type: 'text/csv' })
+    const csvUrl = window.URL.createObjectURL(csvBlob)
+
+    return {
+      code: 200,
+      message: 'CSV created successfully',
+      data: csvUrl
+    }
   }
 
   async createStudent(registrationNumber: string, name: string, lastName1: string, email: string, password: string, utID: string, careerID: string, lastName2?: string): Promise<Response<StudentEntity>> {
@@ -193,7 +208,7 @@ export class AxiosRepository implements StudentRepository {
 
   async countStudentsEnrolled(): Promise<Response<number>> {
     const response = await axiosClient.get('/students/count/enrolled')
-    const body: CountStudentsEnrolledPaid = response.data
+    const body: CountStudentsEnrolledPaidResponse = response.data
 
     const data: Response<number> = {
       code: body.code,
@@ -206,7 +221,7 @@ export class AxiosRepository implements StudentRepository {
 
   async countStudentsPaid(): Promise<Response<number>> {
     const response = await axiosClient.get('/students/count/paid')
-    const body: CountStudentsEnrolledPaid = response.data
+    const body: CountStudentsEnrolledPaidResponse = response.data
 
     const data: Response<number> = {
       code: body.code,

@@ -26,13 +26,15 @@ type UseClassColumnsProps = {
   setOpenDeleteModal: (value: boolean) => void
   setOpenDatesModal: (value: boolean) => void
   setSelectedClass: (selectedClass: ClassEntity) => void
+  downloadCSV: (classID: string) => Promise<void>
 }
 
 function useClassColumns({
   setOpenEditModal,
   setOpenDeleteModal,
   setOpenDatesModal,
-  setSelectedClass
+  setSelectedClass,
+  downloadCSV
 }: UseClassColumnsProps) {
   const classColumns: ColumnDef<ClassEntity>[] = [
     {
@@ -123,6 +125,17 @@ function useClassColumns({
                 className='cursor-pointer'
               >
                 Copiar nombre
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem
+                className='flex items-center cursor-pointer'
+                onClick={() => {
+                  downloadCSV(classRow.id)
+                }}
+              >
+                <HiOutlinePencilSquare className='text-xl mr-1' /> Descargar lista de alumnos suscritos
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />

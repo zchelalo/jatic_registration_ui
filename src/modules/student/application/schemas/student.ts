@@ -27,3 +27,7 @@ export const createStudentSchema = z.object({
 export const deleteStudentSchema = z.object({
   studentID: z.string().uuid()
 })
+
+export const getCSVStudentsEnrolledByClassIDSchema = z.object({
+  classID: z.string().uuid()
+})

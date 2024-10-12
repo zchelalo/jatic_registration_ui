@@ -2,8 +2,10 @@ import { ClassEntity } from '@/modules/class/domain/entity'
 import { TeacherEntity } from '@/modules/teacher/domain/entity'
 import { AxiosRepository } from '@/modules/class/infrastructure/repositories/axios'
 import { AxiosRepository as TeacherRepository } from '@/modules/teacher/infrastructure/repositories/axios'
+import { AxiosRepository as StudentRepository } from '@/modules/student/infrastructure/repositories/axios'
 import { ClassUseCase } from '@/modules/class/application/use_cases/class'
 import { TeacherUseCase } from '@/modules/teacher/application/use_cases/teacher'
+import { StudentUseCase } from '@/modules/student/application/use_cases/student'
 
 import { Meta } from '@/types/meta'
 
@@ -26,6 +28,9 @@ const classUseCase = new ClassUseCase(classRepository)
 
 const teacherRepository = new TeacherRepository()
 const teacherUseCase = new TeacherUseCase(teacherRepository)
+
+const studentRepository = new StudentRepository()
+const studentUseCase = new StudentUseCase(studentRepository)
 
 function Class() {
   const [openDatesModal, setOpenDatesModal] = useState(false)
@@ -68,11 +73,31 @@ function Class() {
     }
   }
 
+  const downloadCSV = async (classID: string) => {
+    try {
+      const response = await studentUseCase.getCSVStudentsEnrolledByClassID(classID)
+
+      const link = document.createElement('a')
+      link.href = response.data
+      link.setAttribute('download', 'estudiantes.csv')
+
+      document.body.appendChild(link)
+      link.click()
+
+      link.remove()
+      window.URL.revokeObjectURL(response.data)
+    } catch (error) {
+      console.log(error)
+      toast.error('Ocurrio un error al descargar el archivo')
+    }
+  }
+
   const { classColumns } = useClassColumns({
     setOpenEditModal,
     setOpenDeleteModal,
     setOpenDatesModal,
-    setSelectedClass
+    setSelectedClass,
+    downloadCSV
   })
 
   return (
