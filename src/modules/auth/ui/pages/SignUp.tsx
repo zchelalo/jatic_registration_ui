@@ -61,20 +61,6 @@ function SignUp() {
           </figure>
           <figure className='w-6/12 sm:w-6/12 md:w-4/12 lg:w-3/12 xl:w-2/12 flex items-center justify-center p-8 sm:p-4'>
             <img
-              src={utn}
-              alt='Logo de UT Nogales'
-              className='max-h-full filter drop-shadow-xl'
-            />
-          </figure>
-          <figure className='w-6/12 sm:w-6/12 md:w-4/12 lg:w-3/12 xl:w-2/12 flex items-center justify-center p-8 sm:p-4'>
-            <img
-              src={utnTi}
-              alt='Logo de TI UTN'
-              className='max-h-full filter drop-shadow-xl'
-            />
-          </figure>
-          <figure className='w-6/12 sm:w-6/12 md:w-4/12 lg:w-3/12 xl:w-2/12 flex items-center justify-center p-8 sm:p-4'>
-            <img
               src={utEtchojoa}
               alt='Logo de UT Etchojoa'
               className='max-h-full filter drop-shadow-xl'
@@ -105,6 +91,20 @@ function SignUp() {
             <img
               src={utslrc}
               alt='Logo de UT San Luis Río Colorado'
+              className='max-h-full filter drop-shadow-xl'
+            />
+          </figure>
+          <figure className='w-6/12 sm:w-6/12 md:w-4/12 lg:w-3/12 xl:w-2/12 flex items-center justify-center p-8 sm:p-4'>
+            <img
+              src={utn}
+              alt='Logo de UT Nogales'
+              className='max-h-full filter drop-shadow-xl'
+            />
+          </figure>
+          <figure className='w-6/12 sm:w-6/12 md:w-4/12 lg:w-3/12 xl:w-2/12 flex items-center justify-center p-8 sm:p-4'>
+            <img
+              src={utnTi}
+              alt='Logo de TI UTN'
               className='max-h-full filter drop-shadow-xl'
             />
           </figure>
