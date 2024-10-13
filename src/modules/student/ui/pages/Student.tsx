@@ -21,7 +21,7 @@ import { EditModal } from '@/modules/student/ui/components/EditModal'
 import { CreateModal } from '@/modules/student/ui/components/CreateModal'
 import { DeleteModal } from '@/modules/student/ui/components/DeleteModal'
 
-import { HiOutlinePlus } from 'react-icons/hi2'
+import { HiOutlinePlus, HiOutlineEnvelope } from 'react-icons/hi2'
 
 const studentRepository = new StudentRepository()
 const studentUseCase = new StudentUseCase(studentRepository)
@@ -50,6 +50,8 @@ function Student() {
   const [totalStudentsPaid, setTotalStudentsPaid] = useState(0)
 
   const [searchValue, setSearchValue] = useState('')
+
+  const [loadingEmails, setLoadingEmails] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -98,6 +100,22 @@ function Student() {
       console.log(error)
       toast.error('Ocurrio un error al traer a los estudiantes')
     }
+  }
+
+  const sendEmails = async () => {
+    if (loadingEmails) {
+      return
+    }
+
+    setLoadingEmails(true)
+    try {
+      await studentUseCase.sendEmailsToStudentsPaid()
+      toast.success('Emails enviados correctamente')
+    } catch (error) {
+      console.error(error)
+      toast.error('Un error ocurrió al intentar enviar los correos')
+    }
+    setLoadingEmails(false)
   }
 
   const debouncedSearch = useCallback(debounce(getStudents, 500), [])
@@ -159,6 +177,13 @@ function Student() {
           onClick={() => setOpenCreateModal(true)}
         >
           <HiOutlinePlus className='text-2xl' />
+        </Button>
+        <Button
+          className='btn-icon ml-3 rounded-full p-2'
+          onClick={sendEmails}
+          disabled={loadingEmails}
+        >
+          <HiOutlineEnvelope className='text-2xl' />
         </Button>
       </h1>
       <article className='flex items-center justify-start space-x-1 mb-1'>

@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import {
@@ -49,6 +50,8 @@ function EditModal({
   students,
   setStudents
 }: EditModalProps) {
+  const [loadingEdit, setLoadingEdit] = useState(false)
+
   const EditStudentSchema = z.object({
     registrationNumber: z
       .string()
@@ -76,6 +79,12 @@ function EditModal({
 
   const onSubmit: SubmitHandler<EditStudentSchemaType> = async (data) => {
     try {
+      setLoadingEdit(true)
+
+      if (loadingEdit) {
+        return
+      }
+
       if (!selectedStudent.id) {
         throw new Error('No se ha seleccionado un estudiante')
       }
@@ -103,6 +112,8 @@ function EditModal({
 
       console.error(error)
       toast.error('Un error ocurrió al intentar actualizar al estudiante')
+    } finally {
+      setLoadingEdit(false)
     }
   }
 
@@ -201,6 +212,7 @@ function EditModal({
               <Button
                 type='submit'
                 className='btn-quaternary'
+                disabled={loadingEdit}
               >
                 Editar
               </Button>

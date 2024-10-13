@@ -78,6 +78,13 @@ type CountStudentsEnrolledPaidResponse = {
   meta: null | undefined
 }
 
+type SendEmailsToStudentsPaidResponse = {
+  code: number
+  message: string
+  data: string
+  meta: null | undefined
+}
+
 export class AxiosRepository implements StudentRepository {
   async listStudents(page: number, limit: number, search?: string): Promise<Response<StudentEntity[]>> {
     const response = await axiosClient.get('/students', {
@@ -224,6 +231,19 @@ export class AxiosRepository implements StudentRepository {
     const body: CountStudentsEnrolledPaidResponse = response.data
 
     const data: Response<number> = {
+      code: body.code,
+      message: body.message,
+      data: body.data
+    }
+
+    return data
+  }
+
+  async sendEmailsToStudentsPaid(): Promise<Response<string>> {
+    const response = await axiosClient.post('/students/email')
+    const body: SendEmailsToStudentsPaidResponse = response.data
+
+    const data: Response<string> = {
       code: body.code,
       message: body.message,
       data: body.data

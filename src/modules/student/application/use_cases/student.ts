@@ -47,4 +47,8 @@ export class StudentUseCase {
   async countStudentsPaid(): Promise<Response<number>> {
     return this.studentRepository.countStudentsPaid()
   }
+
+  async sendEmailsToStudentsPaid(): Promise<Response<string>> {
+    return this.studentRepository.sendEmailsToStudentsPaid()
+  }
 }

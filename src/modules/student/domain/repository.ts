@@ -9,4 +9,5 @@ export interface StudentRepository {
   deleteStudent(studentID: string): Promise<Response<string>>
   countStudentsEnrolled(): Promise<Response<number>>
   countStudentsPaid(): Promise<Response<number>>
+  sendEmailsToStudentsPaid(): Promise<Response<string>>
 }
