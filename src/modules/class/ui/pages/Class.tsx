@@ -73,13 +73,32 @@ function Class() {
     }
   }
 
-  const downloadCSV = async (classID: string) => {
+  const downloadEnrolledCSV = async (classID: string) => {
     try {
       const response = await studentUseCase.getCSVStudentsEnrolledByClassID(classID)
 
       const link = document.createElement('a')
       link.href = response.data
-      link.setAttribute('download', 'estudiantes.csv')
+      link.setAttribute('download', 'estudiantes_inscritos.csv')
+
+      document.body.appendChild(link)
+      link.click()
+
+      link.remove()
+      window.URL.revokeObjectURL(response.data)
+    } catch (error) {
+      console.log(error)
+      toast.error('Ocurrio un error al descargar el archivo')
+    }
+  }
+
+  const downloadPaidCSV = async (classID: string) => {
+    try {
+      const response = await studentUseCase.getCSVStudentsPaidByClassID(classID)
+
+      const link = document.createElement('a')
+      link.href = response.data
+      link.setAttribute('download', 'estudiantes_pagados.csv')
 
       document.body.appendChild(link)
       link.click()
@@ -97,7 +116,8 @@ function Class() {
     setOpenDeleteModal,
     setOpenDatesModal,
     setSelectedClass,
-    downloadCSV
+    downloadEnrolledCSV,
+    downloadPaidCSV
   })
 
   return (

@@ -132,7 +132,22 @@ export class AxiosRepository implements StudentRepository {
   }
 
   async getCSVStudentsEnrolledByClassID(classID: string): Promise<Response<string>> {
-    const response = await axiosClient.get(`/students/csv/${classID}`, {
+    const response = await axiosClient.get(`/students/csv/enrolled/${classID}`, {
+      responseType: 'blob'
+    })
+
+    const csvBlob = new Blob([response.data], { type: 'text/csv' })
+    const csvUrl = window.URL.createObjectURL(csvBlob)
+
+    return {
+      code: 200,
+      message: 'CSV created successfully',
+      data: csvUrl
+    }
+  }
+
+  async getCSVStudentsPaidByClassID(classID: string): Promise<Response<string>> {
+    const response = await axiosClient.get(`/students/csv/paid/${classID}`, {
       responseType: 'blob'
     })
 

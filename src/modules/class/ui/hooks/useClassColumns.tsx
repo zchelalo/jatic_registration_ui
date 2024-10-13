@@ -18,7 +18,8 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { MoreHorizontal } from 'lucide-react'
 import {
   HiOutlinePencilSquare,
-  HiOutlineTrash
+  HiOutlineTrash,
+  HiArrowDownTray
 } from 'react-icons/hi2'
 
 type UseClassColumnsProps = {
@@ -26,7 +27,8 @@ type UseClassColumnsProps = {
   setOpenDeleteModal: (value: boolean) => void
   setOpenDatesModal: (value: boolean) => void
   setSelectedClass: (selectedClass: ClassEntity) => void
-  downloadCSV: (classID: string) => Promise<void>
+  downloadEnrolledCSV: (classID: string) => Promise<void>
+  downloadPaidCSV: (classID: string) => Promise<void>
 }
 
 function useClassColumns({
@@ -34,7 +36,8 @@ function useClassColumns({
   setOpenDeleteModal,
   setOpenDatesModal,
   setSelectedClass,
-  downloadCSV
+  downloadEnrolledCSV,
+  downloadPaidCSV
 }: UseClassColumnsProps) {
   const classColumns: ColumnDef<ClassEntity>[] = [
     {
@@ -132,10 +135,18 @@ function useClassColumns({
               <DropdownMenuItem
                 className='flex items-center cursor-pointer'
                 onClick={() => {
-                  downloadCSV(classRow.id)
+                  downloadEnrolledCSV(classRow.id)
                 }}
               >
-                <HiOutlinePencilSquare className='text-xl mr-1' /> Descargar lista de alumnos suscritos
+                <HiArrowDownTray className='text-xl mr-1' /> Descargar lista de alumnos inscritos
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className='flex items-center cursor-pointer'
+                onClick={() => {
+                  downloadPaidCSV(classRow.id)
+                }}
+              >
+                <HiArrowDownTray className='text-xl mr-1' /> Descargar lista de alumnos pagados
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />

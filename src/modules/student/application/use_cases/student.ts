@@ -22,6 +22,12 @@ export class StudentUseCase {
     return this.studentRepository.getCSVStudentsEnrolledByClassID(classID)
   }
 
+  async getCSVStudentsPaidByClassID(classID: string): Promise<Response<string>> {
+    getCSVStudentsEnrolledByClassIDSchema.parse({ classID })
+
+    return this.studentRepository.getCSVStudentsPaidByClassID(classID)
+  }
+
   async createStudent(registrationNumber: string, name: string, lastName1: string, email: string, password: string, utID: string, careerID: string, lastName2?: string): Promise<Response<StudentEntity>> {
     createStudentSchema.parse({ registrationNumber, name, lastName1, email, password, utID, careerID, lastName2 })
 
