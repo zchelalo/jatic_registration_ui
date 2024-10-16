@@ -1,14 +1,13 @@
 import { UserType } from '@/constants/user_types'
-
 import { useAuth } from '@/contexts/auth/useAuth'
 
 import { Navigate } from 'react-router-dom'
 
-type AuthRouteProps = {
+type TeacherAuthRouteProps = {
   children: React.ReactNode
 }
 
-function AuthRoute({ children }: AuthRouteProps) {
+function TeacherAuthRoute({ children }: TeacherAuthRouteProps) {
   const auth = useAuth()
 
   if (!auth.verifiedUser) {
@@ -23,11 +22,11 @@ function AuthRoute({ children }: AuthRouteProps) {
     return <Navigate to='/admin/' />
   }
 
-  if (auth.user.userType === UserType.TEACHER) {
-    return <Navigate to='/attendance/' />
+  if (auth.user.userType === UserType.STUDENT) {
+    return <Navigate to='/' />
   }
 
   return children
 }
 
-export { AuthRoute }
+export { TeacherAuthRoute }

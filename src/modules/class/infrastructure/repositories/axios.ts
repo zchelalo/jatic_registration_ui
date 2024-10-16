@@ -69,6 +69,22 @@ type ListAllClassesResponse = {
   }
 }
 
+type ListClassesByTeacherResponse = {
+  code: number
+  message: string
+  data: {
+    id: string
+    name: string
+    description: string
+  }[]
+  meta: {
+    page: number
+    per_page: number
+    total_count: number
+    page_count: number
+  }
+}
+
 type CreateClassResponse = {
   code: number
   message: string
@@ -174,6 +190,52 @@ export class AxiosRepository implements ClassRepository {
               lastName2: classObtained.teacher.user.last_name_2,
               email: classObtained.teacher.user.email,
               password: classObtained.teacher.user.password,
+              userType: UserType.TEACHER
+            }
+          },
+          dates: []
+        }
+
+        return newClass
+      }),
+      meta: {
+        page: body.meta.page,
+        perPage: body.meta.per_page,
+        totalCount: body.meta.total_count,
+        pageCount: body.meta.page_count
+      }
+    }
+
+    return data
+  }
+
+  async listClassesByTeacher(page: number, limit: number): Promise<Response<ClassEntity[]>> {
+    const response = await axiosClient.get('/classes/teacher', {
+      params: {
+        page,
+        limit
+      }
+    })
+    const body: ListClassesByTeacherResponse = response.data
+
+    const data: Response<ClassEntity[]> = {
+      code: body.code,
+      message: body.message,
+      data: body.data.map(classObtained => {
+        const newClass: ClassEntity = {
+          id: classObtained.id,
+          name: classObtained.name,
+          description: classObtained.description,
+          teacher: {
+            id: '',
+            profile: '',
+            user: {
+              id: '',
+              name: '',
+              lastName1: '',
+              lastName2: '',
+              email: '',
+              password: '',
               userType: UserType.TEACHER
             }
           },

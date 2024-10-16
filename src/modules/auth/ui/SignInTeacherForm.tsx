@@ -55,7 +55,7 @@ function SignInTeacherForm() {
     try {
       const response = await authUseCase.signInTeacher(data.email, data.password)
       await auth.signIn(response.data.user)
-      navigate('/')
+      navigate('/attendance/')
     } catch (error) {
       console.error(error)
       toast.error('Ocurrió un error al iniciar sesión')

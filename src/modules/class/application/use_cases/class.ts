@@ -23,6 +23,12 @@ export class ClassUseCase {
     return this.classRepository.listAllClasses(page, limit)
   }
 
+  async listClassesByTeacher(page: number, limit: number): Promise<Response<ClassEntity[]>> {
+    listClassesSchema.parse({ page, limit })
+
+    return this.classRepository.listClassesByTeacher(page, limit)
+  }
+
   async suscribeClass(classIds: string[]): Promise<Response<string>> {
     suscribeClassSchema.parse({ classIds })
 

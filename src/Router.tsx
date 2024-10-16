@@ -3,11 +3,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from '@/contexts/auth'
 import { AuthRoute } from '@/contexts/auth/AuthRoute'
 import { AdminAuthRoute } from '@/contexts/auth/AdminAuthRoute'
+import { TeacherAuthRoute } from '@/contexts/auth/TeacherAuthRoute'
 import { PublicRoute } from '@/contexts/auth/PublicRoute'
 import { AdminPublicRoute } from '@/contexts/auth/AdminPublicRoute'
 
 import { Layout } from '@/components/Layout'
 import { AdminLayout } from '@/components/AdminLayout'
+import { TeacherLayout } from '@/components/TeacherLayout'
 
 import { SignUp } from '@/modules/auth/ui/pages/SignUp'
 import { Home } from '@/modules/home/ui/pages/Home'
@@ -20,6 +22,9 @@ import { Student } from '@/modules/student/ui/pages/Student'
 import { Ut } from '@/modules/ut/ui/pages/Ut'
 import { Career } from '@/modules/career/ui/pages/Career'
 import { Class } from '@/modules/class/ui/pages/Class'
+
+import { Attendance } from '@/modules/attendance/ui/pages/Attendance'
+import { AttendanceClass } from '@/modules/attendance/ui/pages/AttendanceClass'
 
 function Router() {
   return (
@@ -115,6 +120,33 @@ function Router() {
                 <AdminAuthRoute>
                   <Class />
                 </AdminAuthRoute>
+              )}
+            />
+          </Route>
+
+          <Route element={<TeacherLayout />}>
+            <Route
+              path='/attendance/*'
+              element={(
+                <TeacherAuthRoute>
+                  <Error404 />
+                </TeacherAuthRoute>
+              )}
+            />
+            <Route
+              path='/attendance/'
+              element={(
+                <TeacherAuthRoute>
+                  <Attendance />
+                </TeacherAuthRoute>
+              )}
+            />
+            <Route
+              path='/attendance/:classId'
+              element={(
+                <TeacherAuthRoute>
+                  <AttendanceClass />
+                </TeacherAuthRoute>
               )}
             />
           </Route>
